@@ -12,7 +12,19 @@ export default defineConfig({
     alias: {
       '@': path.resolve(__dirname, 'src')
     }
-  }
+  },
+  build: {
+    rollupOptions: {
+      input: {
+        main: path.resolve(__dirname, 'index.html'),
+        auth: path.resolve(__dirname, 'auth.html'),
+        cart: path.resolve(__dirname, 'cart.html'),
+        cart2: path.resolve(__dirname, 'cart2.html'),
+        product: path.resolve(__dirname, 'product.html'),
+        productDetail: path.resolve(__dirname, 'product-detail.html'),
+      },
+    },
+  },
 });
 
 
