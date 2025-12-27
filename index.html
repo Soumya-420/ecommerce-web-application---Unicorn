@@ -253,6 +253,21 @@
             align-items: center;
             gap: 10px;
         }
+
+        .welcome-text {
+            font-family: 'Segoe UI', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: capitalize;
+            letter-spacing: 0.5px;
+            margin-left: 15px;
+            padding: 5px 10px;
+            border-left: 1px solid rgba(255, 255, 255, 0.2);
+            animation: fadeIn 1s ease-in;
+        }
     </style>
 </head>
 
@@ -301,7 +316,7 @@
                 <div class="logo brand-logo" onclick="location.href='index.html'">
                     <span>🦄</span> Unicorn
                 </div>
-                <div id="welcome-msg" style="color: #9b59b6; font-weight: 600; display: none;"></div>
+                <div id="welcome-msg" class="welcome-text" style="display: none;"></div>
             </div>
 
             <ul class="nav-links" style="display: flex; align-items: center;">
@@ -376,10 +391,12 @@
 
             if (user) {
                 // User is authenticated
-                const displayName = user.displayName ? user.displayName.toUpperCase() : 'USER';
+                // Get Short Name (First Name only)
+                const fullName = user.displayName || 'User';
+                const shortName = fullName.split(' ')[0];
 
                 // Show Left Side Welcome
-                welcomeMsg.textContent = `WELCOME ${displayName}`;
+                welcomeMsg.innerHTML = `Hi, ${shortName} <span style="-webkit-text-fill-color: initial;">✨</span>`;
                 welcomeMsg.style.display = 'block';
 
                 // Show Profile Menu, Hide Login
