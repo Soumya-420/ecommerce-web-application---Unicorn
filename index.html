@@ -176,7 +176,7 @@
             left: 0;
             width: 100%;
             height: 100vh;
-            background: linear-gradient(135deg, #2c3e50, #3498db);
+            background: linear-gradient(135deg, #2c3e50, #9b59b6);
             color: white;
             z-index: 1000;
             display: flex;
@@ -197,21 +197,26 @@
         }
 
         .splash-icon {
-            font-size: 5rem;
+            font-size: 6rem;
             margin-bottom: 1rem;
             display: block;
+            opacity: 0.3;
+            /* Faded effect */
+            filter: blur(1px);
             animation: scalePulse 2s infinite ease-in-out;
         }
 
         .splash-title {
-            font-size: 3rem;
-            font-weight: bold;
+            font-size: 4rem;
+            font-family: 'Brush Script MT', cursive;
             margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         .splash-subtitle {
             font-size: 1.5rem;
             opacity: 0.9;
+            letter-spacing: 2px;
         }
 
         @keyframes scalePulse {
@@ -237,6 +242,17 @@
                 transform: translateY(0);
             }
         }
+
+        .brand-logo {
+            font-family: 'Brush Script MT', cursive;
+            font-size: 2rem;
+            background: -webkit-linear-gradient(#f1c40f, #e74c3c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
     </style>
 </head>
 
@@ -249,30 +265,43 @@
     <!-- Splash Screen -->
     <div id="splash-screen">
         <div class="splash-content">
-            <span class="splash-icon">🙏</span>
-            <div class="splash-title">Welcome</div>
-            <div class="splash-subtitle">E-Commerce Store</div>
+            <span class="splash-icon">🦄</span>
+            <div class="splash-title">Unicorn</div>
+            <div class="splash-subtitle">Magic in Every Order</div>
         </div>
     </div>
 
     <script>
-        // Remove Splash Screen after delay
+        // Splash Screen Logic
         window.addEventListener('load', () => {
-            setTimeout(() => {
-                const splash = document.getElementById('splash-screen');
-                splash.classList.add('fade-out');
+            const splash = document.getElementById('splash-screen');
+
+            // Check if splash has been shown in this session
+            const splashShown = sessionStorage.getItem('splashShown');
+
+            if (!splashShown) {
+                // First time or after logout
                 setTimeout(() => {
-                    splash.style.display = 'none';
-                }, 1000); // 1s matches CSS transition
-            }, 2500); // Show for 2.5 seconds
+                    splash.classList.add('fade-out');
+                    setTimeout(() => {
+                        splash.style.display = 'none';
+                        sessionStorage.setItem('splashShown', 'true');
+                    }, 1000);
+                }, 2000); // Display time
+            } else {
+                // Already shown, hide immediately
+                splash.style.display = 'none';
+            }
         });
     </script>
 
     <header>
         <nav>
             <div style="display: flex; align-items: center; gap: 1rem;">
-                <div class="logo" onclick="location.href='index.html'">E-Commerce Store</div>
-                <div id="welcome-msg" style="color: #3498db; font-weight: 600; display: none;"></div>
+                <div class="logo brand-logo" onclick="location.href='index.html'">
+                    <span>🦄</span> Unicorn
+                </div>
+                <div id="welcome-msg" style="color: #9b59b6; font-weight: 600; display: none;"></div>
             </div>
 
             <ul class="nav-links" style="display: flex; align-items: center;">
@@ -380,6 +409,7 @@
 
         function logout() {
             auth.signOut().then(() => {
+                sessionStorage.removeItem('splashShown');
                 window.location.reload();
             });
         }
