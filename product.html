@@ -5,327 +5,60 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product Detail - E-Commerce</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: #333;
-        }
-
-        header {
-            background: #2c3e50;
-            color: white;
-            padding: 1rem 0;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-
-        nav {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 2rem;
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
-
-        .cart-icon {
-            position: relative;
-            cursor: pointer;
-        }
-
-        .cart-count {
-            position: absolute;
-            top: -8px;
-            right: -8px;
-            background: #e74c3c;
-            color: white;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.75rem;
-            font-weight: bold;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 2rem;
-        }
-
-        .product-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-            margin-bottom: 3rem;
-        }
-
-        .product-images {
-            position: relative;
-        }
-
-        .main-image-container {
-            position: relative;
-            overflow: hidden;
-            border-radius: 10px;
-            margin-bottom: 1rem;
-            cursor: zoom-in;
-        }
-
-        .main-image {
-            width: 100%;
-            display: block;
-            transition: transform 0.3s ease;
-        }
-
-        .main-image-container:hover .main-image {
-            transform: scale(1.2);
-        }
-
-        .zoom-lens {
-            position: absolute;
-            border: 2px solid #3498db;
-            width: 100px;
-            height: 100px;
-            display: none;
-            pointer-events: none;
-            background: rgba(52, 152, 219, 0.2);
-        }
-
-        .thumbnails {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 0.5rem;
-        }
-
-        .thumbnail {
-            cursor: pointer;
-            border: 2px solid transparent;
-            border-radius: 5px;
-            overflow: hidden;
-            transition: all 0.3s;
-        }
-
-        .thumbnail:hover,
-        .thumbnail.active {
-            border-color: #3498db;
-            transform: scale(1.05);
-        }
-
-        .thumbnail img {
-            width: 100%;
-            display: block;
-        }
-
-        .product-details h1 {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
-            color: #2c3e50;
-        }
-
-        .product-price {
-            font-size: 2rem;
-            color: #e74c3c;
-            font-weight: bold;
-            margin: 1rem 0;
-        }
-
-        .original-price {
-            text-decoration: line-through;
-            color: #95a5a6;
-            font-size: 1.2rem;
-            margin-left: 0.5rem;
-        }
-
-        .product-description {
-            margin: 1.5rem 0;
-            color: #555;
-            line-height: 1.8;
-        }
-
-        .variation-section {
-            margin: 2rem 0;
-        }
-
-        .variation-section h3 {
-            margin-bottom: 0.5rem;
-            color: #2c3e50;
-        }
-
-        .variation-options {
-            display: flex;
-            gap: 0.5rem;
-            margin-top: 0.5rem;
-        }
-
-        .variation-option {
-            padding: 0.5rem 1rem;
-            border: 2px solid #ddd;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.3s;
-            background: white;
-        }
-
-        .variation-option:hover:not(:disabled) {
-            border-color: #3498db;
-            background: #ecf0f1;
-        }
-
-        .variation-option.active {
-            border-color: #3498db;
-            background: #3498db;
-            color: white;
-        }
-
-        .variation-option:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-            text-decoration: line-through;
-        }
-
-        .quantity-selector {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin: 2rem 0;
-        }
-
-        .quantity-controls {
-            display: flex;
-            border: 2px solid #ddd;
-            border-radius: 5px;
-            overflow: hidden;
-        }
-
-        .quantity-btn {
-            padding: 0.5rem 1rem;
-            background: white;
-            border: none;
-            cursor: pointer;
-            font-size: 1.2rem;
-            transition: background 0.3s;
-        }
-
-        .quantity-btn:hover {
-            background: #ecf0f1;
-        }
-
-        .quantity-input {
-            width: 60px;
-            text-align: center;
-            border: none;
-            border-left: 1px solid #ddd;
-            border-right: 1px solid #ddd;
-            font-size: 1rem;
-            padding: 0.5rem;
-        }
-
-        .add-to-cart-btn {
-            background: #3498db;
-            color: white;
-            padding: 1rem 2rem;
-            border: none;
-            border-radius: 5px;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-weight: bold;
-        }
-
-        .add-to-cart-btn:hover {
-            background: #2980b9;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-        }
-
-        .success-message {
-            position: fixed;
-            top: 100px;
-            right: 20px;
-            background: #27ae60;
-            color: white;
-            padding: 1rem 2rem;
-            border-radius: 5px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-            display: none;
-            animation: slideIn 0.3s ease;
-            z-index: 1000;
-        }
-
-        @keyframes slideIn {
-            from {
-                transform: translateX(400px);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-
-        .stock-info {
-            margin: 1rem 0;
-            color: #27ae60;
-            font-weight: bold;
-        }
-
-        .stock-info.low-stock {
-            color: #f39c12;
-        }
-
-        .stock-info.out-of-stock {
-            color: #e74c3c;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; }
+        header { background: #2c3e50; color: white; padding: 1rem 0; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        nav { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 2rem; }
+        .logo { font-size: 1.5rem; font-weight: bold; cursor: pointer; }
+        .cart-icon { position: relative; cursor: pointer; }
+        .cart-count { position: absolute; top: -8px; right: -8px; background: #e74c3c; color: white; border-radius: 50%; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: bold; }
+        .container { max-width: 1200px; margin: 2rem auto; padding: 0 2rem; }
+        .product-container { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
+        .main-image-container { position: relative; overflow: hidden; border-radius: 10px; margin-bottom: 1rem; cursor: zoom-in; }
+        .main-image { width: 100%; display: block; transition: transform 0.3s ease; }
+        .main-image-container:hover .main-image { transform: scale(1.2); }
+        .thumbnails { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem; }
+        .thumbnail { cursor: pointer; border: 2px solid transparent; border-radius: 5px; overflow: hidden; transition: all 0.3s; }
+        .thumbnail:hover, .thumbnail.active { border-color: #3498db; transform: scale(1.05); }
+        .thumbnail img { width: 100%; display: block; }
+        .product-details h1 { font-size: 2rem; margin-bottom: 0.5rem; color: #2c3e50; }
+        .product-price { font-size: 2rem; color: #e74c3c; font-weight: bold; margin: 1rem 0; }
+        .original-price { text-decoration: line-through; color: #95a5a6; font-size: 1.2rem; margin-left: 0.5rem; }
+        .product-description { margin: 1.5rem 0; color: #555; line-height: 1.8; }
+        .variation-section { margin: 2rem 0; }
+        .variation-section h3 { margin-bottom: 0.5rem; color: #2c3e50; }
+        .variation-options { display: flex; gap: 0.5rem; margin-top: 0.5rem; flex-wrap: wrap; }
+        .variation-option { padding: 0.5rem 1rem; border: 2px solid #ddd; border-radius: 5px; cursor: pointer; transition: all 0.3s; background: white; }
+        .variation-option:hover:not(:disabled) { border-color: #3498db; background: #ecf0f1; }
+        .variation-option.active { border-color: #3498db; background: #3498db; color: white; }
+        .variation-option:disabled { opacity: 0.4; cursor: not-allowed; text-decoration: line-through; }
+        .quantity-selector { display: flex; align-items: center; gap: 1rem; margin: 2rem 0; }
+        .quantity-controls { display: flex; border: 2px solid #ddd; border-radius: 5px; overflow: hidden; }
+        .quantity-btn { padding: 0.5rem 1rem; background: white; border: none; cursor: pointer; font-size: 1.2rem; transition: background 0.3s; }
+        .quantity-btn:hover { background: #ecf0f1; }
+        .quantity-input { width: 60px; text-align: center; border: none; border-left: 1px solid #ddd; border-right: 1px solid #ddd; font-size: 1rem; padding: 0.5rem; }
+        .add-to-cart-btn { background: #3498db; color: white; padding: 1rem 2rem; border: none; border-radius: 5px; font-size: 1.1rem; cursor: pointer; transition: all 0.3s; font-weight: bold; }
+        .add-to-cart-btn:hover { background: #2980b9; transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
+        .add-to-cart-btn:active { transform: translateY(0) scale(0.98); }
+        .success-message { position: fixed; top: 100px; right: 20px; background: #27ae60; color: white; padding: 1rem 2rem; border-radius: 5px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); display: none; animation: slideIn 0.3s ease; z-index: 1000; }
+        @keyframes slideIn { from { transform: translateX(400px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        .stock-info { margin: 1rem 0; color: #27ae60; font-weight: bold; }
+        .stock-info.low-stock { color: #f39c12; }
+        .stock-info.out-of-stock { color: #e74c3c; }
         @media (max-width: 768px) {
-            .product-container {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-            }
-
-            nav {
-                padding: 0 1rem;
-            }
-
-            .container {
-                padding: 0 1rem;
-            }
-
-            .thumbnails {
-                grid-template-columns: repeat(4, 1fr);
-            }
-
-            .product-details h1 {
-                font-size: 1.5rem;
-            }
-
-            .product-price {
-                font-size: 1.5rem;
-            }
+            .product-container { grid-template-columns: 1fr; gap: 1.5rem; }
+            nav { padding: 0 1rem; }
+            .container { padding: 0 1rem; }
+            .product-details h1 { font-size: 1.5rem; }
+            .product-price { font-size: 1.5rem; }
         }
     </style>
 </head>
 <body>
     <header>
         <nav>
-            <div class="logo">E-Commerce Store</div>
-            <div class="cart-icon" onclick="window.location.href='index.html'">
+            <div class="logo" onclick="window.location.href='index.html'">E-Commerce Store</div>
+            <div class="cart-icon" onclick="window.location.href='cart.html'">
                 <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <circle cx="9" cy="21" r="1"></circle>
                     <circle cx="20" cy="21" r="1"></circle>
@@ -342,7 +75,6 @@
                 <div class="main-image-container" id="main-image-container">
                     <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&h=600&fit=crop" 
                          alt="Product" class="main-image" id="main-image">
-                    <div class="zoom-lens" id="zoom-lens"></div>
                 </div>
                 <div class="thumbnails" id="thumbnails"></div>
             </div>
@@ -375,25 +107,17 @@
                     </div>
                 </div>
 
-                <button class="add-to-cart-btn" onclick="addToCart()">
-                    Add to Cart
-                </button>
+                <button class="add-to-cart-btn" onclick="addToCart()">Add to Cart</button>
             </div>
         </div>
     </div>
 
-    <div class="success-message" id="success-message">
-        ✓ Product added to cart!
-    </div>
+    <div class="success-message" id="success-message">✓ Product added to cart!</div>
 
     <script>
-        // Sample product data - replace with actual API call
         const products = {
             '1': {
-                id: 1,
-                name: 'Premium Wireless Headphones',
-                price: 299.99,
-                originalPrice: 399.99,
+                id: 1, name: 'Premium Wireless Headphones', price: 299.99, originalPrice: 399.99,
                 description: 'Experience crystal-clear sound with our premium wireless headphones. Featuring active noise cancellation, 30-hour battery life, and premium comfort padding. Perfect for music lovers and professionals alike.',
                 stock: 15,
                 images: [
@@ -407,15 +131,10 @@
                     { name: 'White', available: true },
                     { name: 'Blue', available: false }
                 ],
-                sizes: [
-                    { name: 'One Size', available: true }
-                ]
+                sizes: [{ name: 'One Size', available: true }]
             },
             '2': {
-                id: 2,
-                name: 'Smart Watch Pro',
-                price: 399.99,
-                originalPrice: 499.99,
+                id: 2, name: 'Smart Watch Pro', price: 399.99, originalPrice: 499.99,
                 description: 'Stay connected with our latest smart watch. Features heart rate monitoring, GPS tracking, water resistance, and 7-day battery life.',
                 stock: 3,
                 images: [
@@ -436,39 +155,22 @@
             }
         };
 
-        // Get product ID from URL
         const urlParams = new URLSearchParams(window.location.search);
         const productId = urlParams.get('id') || '1';
         const product = products[productId];
+        let selectedColor = null, selectedSize = null, currentQuantity = 1, maxStock = 0;
 
-        // State management
-        let selectedColor = null;
-        let selectedSize = null;
-        let currentQuantity = 1;
-        let maxStock = 0;
-
-        // Initialize page
         function initializePage() {
-            if (!product) {
-                document.querySelector('.container').innerHTML = '<h2>Product not found</h2>';
-                return;
-            }
-
+            if (!product) { document.querySelector('.container').innerHTML = '<h2>Product not found</h2>'; return; }
             maxStock = product.stock;
-            
             document.getElementById('product-name').textContent = product.name;
             document.getElementById('product-description').textContent = product.description;
-            updatePrice();
-            updateStockInfo();
-            loadImages();
-            loadVariations();
-            updateCartCount();
+            updatePrice(); updateStockInfo(); loadImages(); loadVariations(); updateCartCount();
         }
 
         function updatePrice() {
             const totalPrice = (product.price * currentQuantity).toFixed(2);
             document.getElementById('product-price').textContent = `$${totalPrice}`;
-            
             if (product.originalPrice) {
                 const originalTotal = (product.originalPrice * currentQuantity).toFixed(2);
                 document.getElementById('original-price').textContent = `$${originalTotal}`;
@@ -478,23 +180,17 @@
         function updateStockInfo() {
             const stockEl = document.getElementById('stock-info');
             if (product.stock === 0) {
-                stockEl.textContent = 'Out of Stock';
-                stockEl.className = 'stock-info out-of-stock';
+                stockEl.textContent = 'Out of Stock'; stockEl.className = 'stock-info out-of-stock';
             } else if (product.stock < 5) {
-                stockEl.textContent = `Only ${product.stock} left in stock!`;
-                stockEl.className = 'stock-info low-stock';
+                stockEl.textContent = `Only ${product.stock} left in stock!`; stockEl.className = 'stock-info low-stock';
             } else {
-                stockEl.textContent = `In Stock (${product.stock} available)`;
-                stockEl.className = 'stock-info';
+                stockEl.textContent = `In Stock (${product.stock} available)`; stockEl.className = 'stock-info';
             }
         }
 
         function loadImages() {
-            const mainImage = document.getElementById('main-image');
-            mainImage.src = product.images[0];
-
-            const thumbnailsContainer = document.getElementById('thumbnails');
-            thumbnailsContainer.innerHTML = product.images.map((img, index) => `
+            document.getElementById('main-image').src = product.images[0];
+            document.getElementById('thumbnails').innerHTML = product.images.map((img, index) => `
                 <div class="thumbnail ${index === 0 ? 'active' : ''}" onclick="changeImage(${index})">
                     <img src="${img}" alt="Product view ${index + 1}">
                 </div>
@@ -502,31 +198,18 @@
         }
 
         function changeImage(index) {
-            const mainImage = document.getElementById('main-image');
-            mainImage.src = product.images[index];
-            
+            document.getElementById('main-image').src = product.images[index];
             document.querySelectorAll('.thumbnail').forEach((thumb, i) => {
                 thumb.classList.toggle('active', i === index);
             });
         }
 
         function loadVariations() {
-            const colorOptions = document.getElementById('color-options');
-            colorOptions.innerHTML = product.colors.map(color => `
-                <button class="variation-option" 
-                        onclick="selectColor('${color.name}')"
-                        ${!color.available ? 'disabled' : ''}>
-                    ${color.name}
-                </button>
+            document.getElementById('color-options').innerHTML = product.colors.map(color => `
+                <button class="variation-option" onclick="selectColor('${color.name}')" ${!color.available ? 'disabled' : ''}>${color.name}</button>
             `).join('');
-
-            const sizeOptions = document.getElementById('size-options');
-            sizeOptions.innerHTML = product.sizes.map(size => `
-                <button class="variation-option" 
-                        onclick="selectSize('${size.name}')"
-                        ${!size.available ? 'disabled' : ''}>
-                    ${size.name}
-                </button>
+            document.getElementById('size-options').innerHTML = product.sizes.map(size => `
+                <button class="variation-option" onclick="selectSize('${size.name}')" ${!size.available ? 'disabled' : ''}>${size.name}</button>
             `).join('');
         }
 
@@ -545,68 +228,49 @@
         }
 
         function decreaseQuantity() {
-            if (currentQuantity > 1) {
-                currentQuantity--;
-                document.getElementById('quantity').value = currentQuantity;
-                updatePrice();
-            }
+            if (currentQuantity > 1) { currentQuantity--; document.getElementById('quantity').value = currentQuantity; updatePrice(); }
         }
 
         function increaseQuantity() {
-            if (currentQuantity < maxStock) {
-                currentQuantity++;
-                document.getElementById('quantity').value = currentQuantity;
-                updatePrice();
-            }
+            if (currentQuantity < maxStock) { currentQuantity++; document.getElementById('quantity').value = currentQuantity; updatePrice(); }
         }
 
         function addToCart() {
-            if (!selectedColor || !selectedSize) {
-                alert('Please select color and size');
-                return;
-            }
-
-            if (product.stock === 0) {
-                alert('Product is out of stock');
-                return;
-            }
-
-            const cartItem = {
-                productId: product.id,
-                name: product.name,
-                price: product.price,
-                quantity: currentQuantity,
-                color: selectedColor,
-                size: selectedSize,
-                image: product.images[0]
-            };
-
-            let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            if (!selectedColor || !selectedSize) { alert('Please select color and size'); return; }
+            if (product.stock === 0) { alert('Product is out of stock'); return; }
             
+            const cartItem = { 
+                productId: product.id, 
+                name: product.name, 
+                price: product.price, 
+                quantity: currentQuantity, 
+                color: selectedColor, 
+                size: selectedSize, 
+                image: product.images[0] 
+            };
+            
+            let cart = JSON.parse(localStorage.getItem('cart') || '[]');
             const existingIndex = cart.findIndex(item => 
                 item.productId === cartItem.productId && 
                 item.color === cartItem.color && 
                 item.size === cartItem.size
             );
-
+            
             if (existingIndex > -1) {
                 cart[existingIndex].quantity += currentQuantity;
             } else {
                 cart.push(cartItem);
             }
-
-            localStorage.setItem('cart', JSON.stringify(cart));
             
-            showSuccessMessage();
+            localStorage.setItem('cart', JSON.stringify(cart));
+            showSuccessMessage(); 
             updateCartCount();
         }
 
         function showSuccessMessage() {
             const message = document.getElementById('success-message');
             message.style.display = 'block';
-            setTimeout(() => {
-                message.style.display = 'none';
-            }, 3000);
+            setTimeout(() => { message.style.display = 'none'; }, 3000);
         }
 
         function updateCartCount() {
@@ -615,27 +279,17 @@
             document.getElementById('cart-count').textContent = totalItems;
         }
 
-        // Image zoom functionality
         const mainImageContainer = document.getElementById('main-image-container');
-        const mainImage = document.getElementById('main-image');
-        const zoomLens = document.getElementById('zoom-lens');
-
         mainImageContainer.addEventListener('mousemove', (e) => {
             const rect = mainImageContainer.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            
-            zoomLens.style.left = x - 50 + 'px';
-            zoomLens.style.top = y - 50 + 'px';
-            zoomLens.style.display = 'block';
+            const image = document.getElementById('main-image');
         });
 
-        mainImageContainer.addEventListener('mouseleave', () => {
-            zoomLens.style.display = 'none';
-        });
-
-        // Initialize on page load
         initializePage();
+
+        window.addEventListener('storage', (e) => {
+            if (e.key === 'cart') { updateCartCount(); }
+        });
     </script>
 </body>
 </html>
