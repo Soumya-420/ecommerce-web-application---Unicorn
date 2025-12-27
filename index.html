@@ -242,6 +242,10 @@
 
 <body>
 
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+
     <!-- Splash Screen -->
     <div id="splash-screen">
         <div class="splash-content">
@@ -270,7 +274,7 @@
             <ul class="nav-links">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="product.html">Products</a></li>
-                <li><a href="auth.html">Login</a></li>
+                <li id="auth-link"><a href="auth.html">Login</a></li>
                 <li><a href="cart.html">Cart</a></li>
             </ul>
         </nav>
@@ -294,6 +298,37 @@
     </footer>
 
     <script>
+        // YOUR Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyD1ccRiAIz_MYh6lv3u-gliWtHSBqS3zQs",
+            authDomain: "ecommerce-3a30f.firebaseapp.com",
+            projectId: "ecommerce-3a30f",
+            storageBucket: "ecommerce-3a30f.firebasestorage.app",
+            messagingSenderId: "526024768102",
+            appId: "1:526024768102:web:d408b83d034e8d912a4ba7",
+            measurementId: "G-5HNQGF9L4H"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+
+        auth.onAuthStateChanged((user) => {
+            const authLink = document.getElementById('auth-link');
+            if (user) {
+                // User is authenticated
+                const displayName = user.displayName ? user.displayName.toUpperCase() : 'USER';
+                authLink.innerHTML = `<a href="#">WELCOME ${displayName}</a> | <a href="#" onclick="logout()">LOGOUT</a>`;
+            } else {
+                // User is not authenticated
+                authLink.innerHTML = '<a href="auth.html">Login</a>';
+            }
+        });
+
+        function logout() {
+            auth.signOut().then(() => {
+                window.location.reload();
+            });
+        }
+
         const products = [
             { id: 1, name: "Premium Wireless Headphones", price: 299.99, description: "High-quality sound with noise cancellation", image: "./images/headphone.webp" },
             { id: 2, name: "Smart Watch Pro", price: 399.99, description: "Track your fitness and stay connected", image: "./images/smartwatch.webp" },
@@ -318,6 +353,7 @@
             </div>
         `).join("");
         }
+
 
         function addToCart(productId) {
             const product = products.find(p => p.id === productId);
