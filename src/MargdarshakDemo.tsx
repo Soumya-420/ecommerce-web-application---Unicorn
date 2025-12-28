@@ -57,9 +57,10 @@ export default function MargdarshakDemo() {
   }, []);
 
   useEffect(() => {
-    if (!mapRef.current || !markersLayerRef.current) return;
+    const layerGroup = markersLayerRef.current;
+    if (!mapRef.current || !layerGroup) return;
 
-    markersLayerRef.current.clearLayers();
+    layerGroup.clearLayers();
 
     demoRoutes.forEach((bus, index) => {
       const icon = L.divIcon({
@@ -80,7 +81,7 @@ export default function MargdarshakDemo() {
       `;
 
       marker.bindPopup(popupHtml);
-      marker.addTo(markersLayerRef.current);
+      marker.addTo(layerGroup);
     });
   }, [demoRoutes]);
 
@@ -102,7 +103,7 @@ export default function MargdarshakDemo() {
             <Input
               placeholder="Search by route, stop, or destination"
               value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearch(e.target.value)}
             />
             <Button><Search className="h-4 w-4" /></Button>
           </div>
@@ -158,7 +159,7 @@ export default function MargdarshakDemo() {
             <TabsTrigger value="driver">Driver View</TabsTrigger>
           </TabsList>
 
-        <TabsContent value="admin" className="mt-4">
+          <TabsContent value="admin" className="mt-4">
             <Card>
               <CardContent className="p-4 space-y-4">
                 <h2 className="font-bold text-lg">Admin View</h2>
