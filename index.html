@@ -45,31 +45,78 @@
         }
 
         .hero {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            position: relative;
+            background: linear-gradient(-45deg, #667eea, #764ba2, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
             color: #fff;
-            padding: 4rem 2rem;
-            text-align: center
+            padding: 6rem 2rem;
+            text-align: center;
+            overflow: hidden;
+            border-bottom-left-radius: 50% 10%;
+            border-bottom-right-radius: 50% 10%;
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.3);
+        }
+
+        @keyframes gradientBG {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
         }
 
         .hero h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem
+            font-size: 4rem;
+            margin-bottom: 0.5rem;
+            font-weight: 800;
+            text-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            animation: slideUp 1s ease-out;
         }
 
         .hero p {
-            font-size: 1.2rem;
-            margin-bottom: 2rem
+            font-size: 1.5rem;
+            margin-bottom: 2.5rem;
+            opacity: 0.9;
+            animation: slideUp 1s ease-out 0.2s backwards;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .cta-btn {
-            background: #fff;
+            background: rgba(255, 255, 255, 0.95);
             color: #667eea;
-            padding: 1rem 2rem;
+            padding: 1.2rem 3rem;
             border: none;
-            border-radius: 5px;
-            font-size: 1.1rem;
+            border-radius: 50px;
+            font-size: 1.2rem;
             font-weight: 700;
-            cursor: pointer
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            animation: slideUp 1s ease-out 0.4s backwards;
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            background: #fff;
         }
 
         .container {
