@@ -1,0 +1,79 @@
+/* Responsive Mobile Menu */
+.hamburger {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--header-text);
+    font-size: 1.5rem;
+    cursor: pointer;
+    z-index: 1100;
+}
+
+@media (max-width: 768px) {
+    .hamburger {
+        display: block;
+    }
+
+    .nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 70%;
+        height: 100vh;
+        background: var(--card-bg);
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        transition: right 0.3s ease;
+        box-shadow: -5px 0 15px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+    }
+
+    .nav-links.active {
+        right: 0;
+    }
+
+    .nav-links li {
+        width: 100%;
+        text-align: center;
+    }
+
+    .nav-links a,
+    .nav-links button {
+        color: var(--text-color) !important;
+        font-size: 1.2rem;
+        width: 100%;
+        justify-content: center;
+        padding: 1rem;
+    }
+
+    /* Adjust container padding */
+    .container {
+        padding: 1rem;
+    }
+
+    .logo {
+        font-size: 1.2rem;
+    }
+
+    /* Slider improvements for mobile */
+    .products-grid-container {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scroll-snap-type: x mandatory;
+    }
+
+    .products-grid {
+        gap: 1rem;
+        /* Reduce gap on mobile */
+    }
+
+    .product-card {
+        scroll-snap-align: center;
+    }
+
+    /* Hide slider arrows on mobile if we have touch scroll */
+    .slider-btn {
+        display: none;
+    }
+}

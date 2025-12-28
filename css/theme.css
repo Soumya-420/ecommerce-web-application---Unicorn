@@ -1,0 +1,157 @@
+/* Shared Theme Variables */
+:root {
+    --bg-color: #f5f5f5;
+    --text-color: #333;
+    --header-bg: #2c3e50;
+    --header-text: #fff;
+    --card-bg: #fff;
+    --card-shadow: rgba(0, 0, 0, 0.1);
+    --input-bg: #fff;
+    --input-border: #ddd;
+    --border-color: #eee;
+    --glow-color: transparent;
+    --accent-color: #3498db;
+}
+
+body.dark-mode {
+    --bg-color: #1a1a1a;
+    --text-color: #ecf0f1;
+    --header-bg: #0a1118;
+    --header-text: #ffffff;
+    --card-bg: #2c3e50;
+    --card-shadow: rgba(0, 0, 0, 0.5);
+    --input-bg: #223140;
+    --input-border: #444;
+    --border-color: #3e4f5f;
+    --glow-color: rgba(52, 152, 219, 0.3);
+    --accent-color: #5dade2;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: var(--bg-color);
+    color: var(--text-color);
+    transition: background 0.3s, color 0.3s;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Common Element Theming */
+body>header {
+    background: var(--header-bg) !important;
+    color: var(--header-text) !important;
+    box-shadow: 0 2px 10px var(--card-shadow) !important;
+    padding: 0.5rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 10000;
+}
+
+nav {
+    max-width: 1240px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.brand-logo {
+    font-family: 'Brush Script MT', cursive;
+    font-size: 2rem;
+    background: -webkit-linear-gradient(#f1c40f, #e74c3c);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.product-card,
+.cart-header,
+.cart-items,
+.cart-summary,
+.container,
+.auth-container,
+.order-card,
+.success-message {
+    background: var(--card-bg);
+    color: var(--text-color);
+    box-shadow: 0 4px 15px var(--card-shadow);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 2rem;
+    border-radius: 12px;
+}
+
+.cart-item {
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* Navbar Highlights for Visibility */
+.nav-links {
+    display: flex;
+    gap: 1rem;
+    list-style: none;
+    align-items: center;
+    margin-left: auto;
+}
+
+.nav-links a,
+.nav-links button {
+    color: var(--header-text) !important;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.nav-links a:hover,
+.nav-links button:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--accent-color) !important;
+    box-shadow: 0 0 10px var(--glow-color);
+}
+
+body.dark-mode .nav-links a:hover,
+body.dark-mode .nav-links button:hover {
+    text-shadow: 0 0 8px var(--accent-color);
+    background: rgba(52, 152, 219, 0.15);
+}
+
+/* Input Fields */
+input,
+textarea,
+select {
+    background: var(--input-bg) !important;
+    color: var(--text-color) !important;
+    border: 1px solid var(--input-border) !important;
+    padding: 10px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+input:focus,
+textarea:focus {
+    border-color: var(--accent-color) !important;
+}
+
+/* Theme Toggle Icon Transition */
+#theme-icon {
+    font-size: 1.4rem;
+    cursor: pointer;
+    user-select: none;
+}

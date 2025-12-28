@@ -4,7 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login & Signup - E-Commerce</title>
+    <title>Login & Signup - Unicorn Online Shopping</title>
+    <link rel="stylesheet" href="css/theme.css">
+    <script type="module" src="js/theme.js"></script>
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="manifest" href="manifest.json">
     <style>
         * {
             margin: 0;
@@ -12,51 +16,30 @@
             box-sizing: border-box;
         }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
+        /* Layout wrapper */
+        .auth-wrapper {
+            min-height: calc(100vh - 80px);
+            /* header height approx */
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 2rem;
+            background: var(--bg-color);
         }
 
-        header {
-            background: #2c3e50;
-            color: white;
-            padding: 1rem 0;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 100;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
 
-        nav {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 2rem;
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            cursor: pointer;
-        }
 
         .auth-container {
-            background: white;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
             border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 10px 30px var(--card-shadow);
             overflow: hidden;
             width: 100%;
             max-width: 450px;
-            margin-top: 80px;
+            width: 100%;
+            max-width: 450px;
+            /* margin-top managed by flex wrapper */
         }
 
         .form-container {
@@ -70,7 +53,7 @@
         }
 
         .form-header h2 {
-            color: #2c3e50;
+            color: var(--header-text);
             font-size: 2rem;
             margin-bottom: 0.5rem;
         }
@@ -86,7 +69,7 @@
         .form-group label {
             display: block;
             margin-bottom: 0.5rem;
-            color: #2c3e50;
+            color: var(--text-color);
             font-weight: 500;
         }
 
@@ -287,110 +270,116 @@
 <body>
     <header>
         <nav>
-            <div class="logo" onclick="window.location.href='index.html'"><span>🦄</span> Unicorn</div>
+            <div class="logo brand-logo" onclick="window.location.href='index.html'"><span>🦄</span> Unicorn</div>
+            <button class="theme-toggle" onclick="toggleTheme()" title="Toggle Day/Night Mode">
+                <span id="theme-icon">🌙</span>
+            </button>
         </nav>
     </header>
 
-    <div class="auth-container">
-        <!-- Login Form -->
-        <div class="form-container" id="login-form">
-            <div class="form-header">
-                <h2>Welcome Back!</h2>
-                <p>Login to your account</p>
-            </div>
+    <main class="auth-wrapper">
 
-            <div class="success-message" id="login-success"></div>
-
-            <form onsubmit="handleLogin(event)">
-                <div class="form-group">
-                    <label for="login-email">Email</label>
-                    <input type="email" id="login-email" placeholder="Enter your email" required>
-                    <div class="error-message" id="login-email-error"></div>
+        <div class="auth-container">
+            <!-- Login Form -->
+            <div class="form-container" id="login-form">
+                <div class="form-header">
+                    <h2>Welcome Back!</h2>
+                    <p>Login to your account</p>
                 </div>
 
-                <div class="form-group">
-                    <label for="login-password">Password</label>
-                    <div class="password-wrapper">
-                        <input type="password" id="login-password" placeholder="Enter your password" required>
-                        <span class="password-toggle" onclick="togglePassword('login-password')">👁️</span>
+                <div class="success-message" id="login-success"></div>
+
+                <form onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label for="login-email">Email</label>
+                        <input type="email" id="login-email" placeholder="Enter your email" required>
+                        <div class="error-message" id="login-email-error"></div>
                     </div>
-                    <div class="error-message" id="login-password-error"></div>
-                </div>
 
-                <div class="forgot-password">
-                    <a href="#" onclick="showForgotPassword(); return false;">Forgot Password?</a>
-                </div>
-
-                <button type="submit" class="submit-btn" id="login-btn">
-                    Login
-                </button>
-            </form>
-
-            <div class="form-switch">
-                <p>Don't have an account?</p>
-                <button onclick="switchToSignup()">Sign Up</button>
-            </div>
-        </div>
-
-        <!-- Signup Form -->
-        <div class="form-container hidden" id="signup-form">
-            <div class="form-header">
-                <h2>Create Account</h2>
-                <p>Join us today!</p>
-            </div>
-
-            <div class="success-message" id="signup-success"></div>
-
-            <form onsubmit="handleSignup(event)">
-                <div class="form-group">
-                    <label for="signup-name">Full Name</label>
-                    <input type="text" id="signup-name" placeholder="Enter your full name" required>
-                    <div class="error-message" id="signup-name-error"></div>
-                </div>
-
-                <div class="form-group">
-                    <label for="signup-email">Email</label>
-                    <input type="email" id="signup-email" placeholder="Enter your email" required>
-                    <div class="error-message" id="signup-email-error"></div>
-                </div>
-
-                <div class="form-group">
-                    <label for="signup-password">Password</label>
-                    <div class="password-wrapper">
-                        <input type="password" id="signup-password" placeholder="Create a password" required
-                            oninput="checkPasswordStrength()">
-                        <span class="password-toggle" onclick="togglePassword('signup-password')">👁️</span>
-                    </div>
-                    <div class="password-strength">
-                        <div class="strength-bar">
-                            <div class="strength-fill" id="strength-fill"></div>
+                    <div class="form-group">
+                        <label for="login-password">Password</label>
+                        <div class="password-wrapper">
+                            <input type="password" id="login-password" placeholder="Enter your password" required>
+                            <span class="password-toggle" onclick="togglePassword('login-password')">👁️</span>
                         </div>
-                        <small id="strength-text"></small>
+                        <div class="error-message" id="login-password-error"></div>
                     </div>
-                    <div class="error-message" id="signup-password-error"></div>
+
+                    <div class="forgot-password">
+                        <a href="#" onclick="showForgotPassword(); return false;">Forgot Password?</a>
+                    </div>
+
+                    <button type="submit" class="submit-btn" id="login-btn">
+                        Login
+                    </button>
+                </form>
+
+                <div class="form-switch">
+                    <p>Don't have an account?</p>
+                    <button onclick="switchToSignup()">Sign Up</button>
+                </div>
+            </div>
+
+            <!-- Signup Form -->
+            <div class="form-container hidden" id="signup-form">
+                <div class="form-header">
+                    <h2>Create Account</h2>
+                    <p>Join us today!</p>
                 </div>
 
-                <div class="form-group">
-                    <label for="signup-confirm-password">Confirm Password</label>
-                    <div class="password-wrapper">
-                        <input type="password" id="signup-confirm-password" placeholder="Confirm your password"
-                            required>
-                        <span class="password-toggle" onclick="togglePassword('signup-confirm-password')">👁️</span>
+                <div class="success-message" id="signup-success"></div>
+
+                <form onsubmit="handleSignup(event)">
+                    <div class="form-group">
+                        <label for="signup-name">Full Name</label>
+                        <input type="text" id="signup-name" placeholder="Enter your full name" required>
+                        <div class="error-message" id="signup-name-error"></div>
                     </div>
-                    <div class="error-message" id="signup-confirm-password-error"></div>
+
+                    <div class="form-group">
+                        <label for="signup-email">Email</label>
+                        <input type="email" id="signup-email" placeholder="Enter your email" required>
+                        <div class="error-message" id="signup-email-error"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="signup-password">Password</label>
+                        <div class="password-wrapper">
+                            <input type="password" id="signup-password" placeholder="Create a password" required
+                                oninput="checkPasswordStrength()">
+                            <span class="password-toggle" onclick="togglePassword('signup-password')">👁️</span>
+                        </div>
+                        <div class="password-strength">
+                            <div class="strength-bar">
+                                <div class="strength-fill" id="strength-fill"></div>
+                            </div>
+                            <small id="strength-text"></small>
+                        </div>
+                        <div class="error-message" id="signup-password-error"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="signup-confirm-password">Confirm Password</label>
+                        <div class="password-wrapper">
+                            <input type="password" id="signup-confirm-password" placeholder="Confirm your password"
+                                required>
+                            <span class="password-toggle" onclick="togglePassword('signup-confirm-password')">👁️</span>
+                        </div>
+                        <div class="error-message" id="signup-confirm-password-error"></div>
+                    </div>
+
+                    <button type="submit" class="submit-btn" id="signup-btn">
+                        Sign Up
+                    </button>
+                </form>
+
+                <div class="form-switch">
+                    <p>Already have an account?</p>
+                    <button onclick="switchToLogin()">Login</button>
                 </div>
-
-                <button type="submit" class="submit-btn" id="signup-btn">
-                    Sign Up
-                </button>
-            </form>
-
-            <div class="form-switch">
-                <p>Already have an account?</p>
-                <button onclick="switchToLogin()">Login</button>
             </div>
         </div>
-    </div>
+    </main>
 
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>

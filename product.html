@@ -1,76 +1,361 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Product details and specifications">
-    <link rel="preconnect" href="https://images.unsplash.com">
-    <meta http-equiv="Cache-Control" content="max-age=31536000">
-    <title>Product Detail - E-Commerce</title>
-    <style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;line-height:1.6;color:#333}header{background:#2c3e50;color:#fff;padding:1rem 0;position:sticky;top:0;z-index:100;box-shadow:0 2px 5px rgba(0,0,0,.1)}nav{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;padding:0 2rem}.logo{font-size:1.5rem;font-weight:700;cursor:pointer}.cart-icon{position:relative;cursor:pointer}.cart-count{position:absolute;top:-8px;right:-8px;background:#e74c3c;color:#fff;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700}.container{max-width:1200px;margin:2rem auto;padding:0 2rem}.product-container{display:grid;grid-template-columns:1fr 1fr;gap:3rem;margin-bottom:3rem}.main-image-container{position:relative;overflow:hidden;border-radius:10px;margin-bottom:1rem;cursor:zoom-in}.main-image{width:100%;display:block;transition:transform .3s ease}.main-image-container:hover .main-image{transform:scale(1.2)}.thumbnails{display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem}.thumbnail{cursor:pointer;border:2px solid transparent;border-radius:5px;overflow:hidden;transition:all .3s}.thumbnail:hover,.thumbnail.active{border-color:#3498db;transform:scale(1.05)}.thumbnail img{width:100%;display:block}.product-details h1{font-size:2rem;margin-bottom:.5rem;color:#2c3e50}.product-price{font-size:2rem;color:#e74c3c;font-weight:700;margin:1rem 0}.original-price{text-decoration:line-through;color:#95a5a6;font-size:1.2rem;margin-left:.5rem}.product-description{margin:1.5rem 0;color:#555;line-height:1.8}.variation-section{margin:2rem 0}.variation-section h3{margin-bottom:.5rem;color:#2c3e50}.variation-options{display:flex;gap:.5rem;margin-top:.5rem;flex-wrap:wrap}.variation-option{padding:.5rem 1rem;border:2px solid #ddd;border-radius:5px;cursor:pointer;transition:all .3s;background:#fff}.variation-option:hover:not(:disabled){border-color:#3498db;background:#ecf0f1}.variation-option.active{border-color:#3498db;background:#3498db;color:#fff}.variation-option:disabled{opacity:.4;cursor:not-allowed;text-decoration:line-through}.quantity-selector{display:flex;align-items:center;gap:1rem;margin:2rem 0}.quantity-controls{display:flex;border:2px solid #ddd;border-radius:5px;overflow:hidden}.quantity-btn{padding:.5rem 1rem;background:#fff;border:none;cursor:pointer;font-size:1.2rem;transition:background .3s}.quantity-btn:hover{background:#ecf0f1}.quantity-input{width:60px;text-align:center;border:none;border-left:1px solid #ddd;border-right:1px solid #ddd;font-size:1rem;padding:.5rem}.add-to-cart-btn{background:#3498db;color:#fff;padding:1rem 2rem;border:none;border-radius:5px;font-size:1.1rem;cursor:pointer;transition:all .3s;font-weight:700}.add-to-cart-btn:hover{background:#2980b9;transform:translateY(-2px);box-shadow:0 4px 8px rgba(0,0,0,.2)}.success-message{position:fixed;top:100px;right:20px;background:#27ae60;color:#fff;padding:1rem 2rem;border-radius:5px;box-shadow:0 4px 8px rgba(0,0,0,.2);display:none;animation:slideIn .3s ease;z-index:1000}@keyframes slideIn{from{transform:translateX(400px);opacity:0}to{transform:translateX(0);opacity:1}}.stock-info{margin:1rem 0;color:#27ae60;font-weight:700}.stock-info.low-stock{color:#f39c12}.stock-info.out-of-stock{color:#e74c3c}@media (max-width:768px){.product-container{grid-template-columns:1fr;gap:1.5rem}nav{padding:0 1rem}.container{padding:0 1rem}.product-details h1{font-size:1.5rem}.product-price{font-size:1.5rem}}</style>
+    <meta name="description" content="E-Commerce Store - All Products">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>All Products - Unicorn Online Shopping</title>
+    <link rel="stylesheet" href="css/theme.css">
+    <script type="module" src="js/theme.js"></script>
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="manifest" href="manifest.json">
+
+    <style>
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 15px var(--card-shadow);
+        }
+
+        .page-title {
+            color: var(--text-color);
+        }
+
+        .product-card {
+            background: var(--card-bg);
+            box-shadow: 0 4px 10px var(--card-shadow);
+            color: var(--text-color);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2.5rem;
+            padding: 2rem 0;
+        }
+
+        .product-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px var(--card-shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            color: var(--text-color);
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px var(--card-shadow);
+        }
+
+        .product-image-link {
+            display: block;
+            height: 280px;
+            overflow: hidden;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .product-card:hover .product-image {
+            transform: scale(1.1);
+        }
+
+        .product-info {
+            padding: 1.5rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-name {
+            font-size: 1.25rem;
+            margin-bottom: .5rem;
+            color: var(--text-color);
+            text-decoration: none;
+        }
+
+        .product-price {
+            font-size: 1.4rem;
+            color: #e74c3c;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .original-price {
+            text-decoration: line-through;
+            color: #95a5a6;
+            font-size: 0.9rem;
+            font-weight: 400;
+        }
+
+        .discount-badge {
+            background: #27ae60;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .view-details-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #fff !important;
+            border: none;
+            padding: .85rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            text-align: center;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+
+        /* Profile Dropdown Override */
+        body.dark-mode #profile-dropdown a {
+            color: #ecf0f1 !important;
+            background: #2c3e50 !important;
+        }
+
+        body.dark-mode #profile-dropdown a:hover {
+            background: #34495e !important;
+        }
+    </style>
 </head>
+
 <body>
     <header>
         <nav>
-            <div class="logo" onclick="window.location.href='index.html'">E-Commerce Store</div>
-            <div class="cart-icon" onclick="window.location.href='cart.html'">
-                <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="9" cy="21" r="1"></circle>
-                    <circle cx="20" cy="21" r="1"></circle>
-                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-                </svg>
-                <span class="cart-count" id="cart-count">0</span>
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <div class="logo brand-logo" onclick="location.href='index.html'">
+                    <span>🦄</span> Unicorn
+                </div>
+                <div id="welcome-msg" class="welcome-text" style="display: none;"></div>
             </div>
+
+            <button class="hamburger" onclick="toggleMobileMenu()">☰</button>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="product.html">Products</a></li>
+                <li id="cart-link" class="cart-icon">
+                    <a href="cart.html" style="padding: 0; background: none; border: none; box-shadow: none;">
+                        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"
+                            viewBox="0 0 24 24">
+                            <circle cx="9" cy="21" r="1" />
+                            <circle cx="20" cy="21" r="1" />
+                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+                        </svg>
+                        Cart
+                        <span class="cart-count" id="cart-count">0</span>
+                    </a>
+                </li>
+                <!-- Profile Dropdown -->
+                <li id="profile-menu" style="position: relative; display: block;">
+                    <button onclick="toggleProfileMenu()" id="profile-btn">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"
+                            viewBox="0 0 24 24">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                            <circle cx="12" cy="7" r="4" />
+                        </svg>
+                        Profile
+                    </button>
+                    <div id="profile-dropdown"
+                        style="display: none; position: absolute; right: 0; top: 100%; min-width: 200px; border-radius: 5px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); overflow: hidden; margin-top: 10px; z-index: 1001; background: var(--card-bg);">
+                        <a href="profile.html"
+                            style="display: block; padding: 12px 15px; color: var(--text-color); text-decoration: none; border-bottom: 1px solid var(--border-color);">Manage
+                            Profile</a>
+                        <a href="profile.html#orders-section"
+                            style="display: block; padding: 12px 15px; color: var(--text-color); text-decoration: none; border-bottom: 1px solid var(--border-color);">Orders</a>
+
+                        <a href="#" onclick="logout()"
+                            style="display: block; padding: 12px 15px; color: #e74c3c; text-decoration: none;">Logout</a>
+                    </div>
+                </li>
+                <li>
+                    <button class="theme-toggle" onclick="toggleTheme()" title="Toggle Day/Night Mode">
+                        <span id="theme-icon">🌙</span>
+                    </button>
+                </li>
+            </ul>
         </nav>
     </header>
 
     <div class="container">
-        <div class="product-container">
-            <div class="product-images">
-                <div class="main-image-container" id="main-image-container">
-                    <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&h=600&fit=crop&auto=format&q=80" 
-                         alt="Product" class="main-image" id="main-image" loading="eager" decoding="async" width="600" height="600">
-                </div>
-                <div class="thumbnails" id="thumbnails"></div>
-            </div>
+        <header class="page-header">
+            <h1 class="page-title">Explore Our Collection</h1>
+            <p>Quality products curated just for you</p>
+        </header>
 
-            <div class="product-details">
-                <h1 id="product-name">Loading...</h1>
-                <div class="product-price">
-                    <span id="product-price">$0.00</span>
-                    <span class="original-price" id="original-price"></span>
-                </div>
-                <div class="stock-info" id="stock-info"></div>
-                <p class="product-description" id="product-description"></p>
-
-                <div class="variation-section">
-                    <h3>Color</h3>
-                    <div class="variation-options" id="color-options"></div>
-                </div>
-
-                <div class="variation-section">
-                    <h3>Size</h3>
-                    <div class="variation-options" id="size-options"></div>
-                </div>
-
-                <div class="quantity-selector">
-                    <h3>Quantity:</h3>
-                    <div class="quantity-controls">
-                        <button class="quantity-btn" onclick="decreaseQuantity()">−</button>
-                        <input type="number" class="quantity-input" id="quantity" value="1" min="1" readonly>
-                        <button class="quantity-btn" onclick="increaseQuantity()">+</button>
-                    </div>
-                </div>
-
-                <button class="add-to-cart-btn" onclick="addToCart()">Add to Cart</button>
-            </div>
+        <div class="products-grid" id="products-grid">
+            <!-- Products will be injected here -->
         </div>
     </div>
 
-    <div class="success-message" id="success-message">✓ Product added to cart!</div>
+    <footer>
+        <p>&copy; 2025 Unicorn Store. All rights reserved.</p>
+    </footer>
 
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script>
-        const products={'1':{id:1,name:'Premium Wireless Headphones',price:299.99,originalPrice:399.99,description:'Experience crystal-clear sound with our premium wireless headphones. Featuring active noise cancellation, 30-hour battery life, and premium comfort padding.',stock:15,images:['https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&h=600&fit=crop&auto=format&q=80','https://images.unsplash.com/photo-1484704849700-f032a568e944?w=600&h=600&fit=crop&auto=format&q=80','https://images.unsplash.com/photo-1545127398-14699f92334b?w=600&h=600&fit=crop&auto=format&q=80','https://images.unsplash.com/photo-1487215078519-e21cc028cb29?w=600&h=600&fit=crop&auto=format&q=80'],colors:[{name:'Black',available:!0},{name:'White',available:!0},{name:'Blue',available:!1}],sizes:[{name:'One Size',available:!0}]},'2':{id:2,name:'Smart Watch Pro',price:399.99,originalPrice:499.99,description:'Stay connected with our latest smart watch. Features heart rate monitoring, GPS tracking, water resistance, and 7-day battery life.',stock:3,images:['https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&h=600&fit=crop&auto=format&q=80','https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=600&h=600&fit=crop&auto=format&q=80','https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&h=600&fit=crop&auto=format&q=80','https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=600&h=600&fit=crop&auto=format&q=80'],colors:[{name:'Silver',available:!0},{name:'Gold',available:!0},{name:'Rose Gold',available:!0}],sizes:[{name:'42mm',available:!0},{name:'46mm',available:!0}]}};const urlParams=new URLSearchParams(window.location.search),productId=urlParams.get('id')||'1',product=products[productId];let selectedColor=null,selectedSize=null,currentQuantity=1,maxStock=0;function initializePage(){if(!product){document.querySelector('.container').innerHTML='<h2>Product not found</h2>';return}maxStock=product.stock,document.getElementById('product-name').textContent=product.name,document.getElementById('product-description').textContent=product.description,updatePrice(),updateStockInfo(),loadImages(),loadVariations(),updateCartCount()}function updatePrice(){const t=(product.price*currentQuantity).toFixed(2);if(document.getElementById('product-price').textContent=`$${t}`,product.originalPrice){const n=(product.originalPrice*currentQuantity).toFixed(2);document.getElementById('original-price').textContent=`$${n}`}}function updateStockInfo(){const t=document.getElementById('stock-info');0===product.stock?(t.textContent='Out of Stock',t.className='stock-info out-of-stock'):product.stock<5?(t.textContent=`Only ${product.stock} left in stock!`,t.className='stock-info low-stock'):(t.textContent=`In Stock (${product.stock} available)`,t.className='stock-info')}function loadImages(){document.getElementById('main-image').src=product.images[0],document.getElementById('thumbnails').innerHTML=product.images.map((t,n)=>`<div class="thumbnail ${0===n?'active':''}" onclick="changeImage(${n})"><img src="${t}" alt="Product view ${n+1}" loading="lazy" decoding="async" width="150" height="150"></div>`).join('')}function changeImage(t){document.getElementById('main-image').src=product.images[t],document.querySelectorAll('.thumbnail').forEach((n,e)=>{n.classList.toggle('active',e===t)})}function loadVariations(){document.getElementById('color-options').innerHTML=product.colors.map(t=>`<button class="variation-option" onclick="selectColor('${t.name}')" ${t.available?'':'disabled'}>${t.name}</button>`).join(''),document.getElementById('size-options').innerHTML=product.sizes.map(t=>`<button class="variation-option" onclick="selectSize('${t.name}')" ${t.available?'':'disabled'}>${t.name}</button>`).join('')}function selectColor(t){selectedColor=t,document.querySelectorAll('#color-options .variation-option').forEach(n=>{n.classList.toggle('active',n.textContent.trim()===t)})}function selectSize(t){selectedSize=t,document.querySelectorAll('#size-options .variation-option').forEach(n=>{n.classList.toggle('active',n.textContent.trim()===t)})}function decreaseQuantity(){currentQuantity>1&&(currentQuantity--,document.getElementById('quantity').value=currentQuantity,updatePrice())}function increaseQuantity(){currentQuantity<maxStock&&(currentQuantity++,document.getElementById('quantity').value=currentQuantity,updatePrice())}function addToCart(){if(!selectedColor||!selectedSize){alert('Please select color and size');return}if(0===product.stock){alert('Product is out of stock');return}const t={productId:product.id,name:product.name,price:product.price,quantity:currentQuantity,color:selectedColor,size:selectedSize,image:product.images[0]};let n=JSON.parse(localStorage.getItem('cart')||'[]');const e=n.findIndex(t=>t.productId===product.id&&t.color===selectedColor&&t.size===selectedSize);-1!==e?n[e].quantity+=currentQuantity:n.push(t),localStorage.setItem('cart',JSON.stringify(n)),showSuccessMessage(),updateCartCount()}function showSuccessMessage(){const t=document.getElementById('success-message');t.style.display='block',setTimeout(()=>{t.style.display='none'},3e3)}function updateCartCount(){const t=JSON.parse(localStorage.getItem('cart')||'[]'),n=t.reduce((t,n)=>t+n.quantity,0);document.getElementById('cart-count').textContent=n}const mainImageContainer=document.getElementById('main-image-container');mainImageContainer.addEventListener('mousemove',t=>{const n=mainImageContainer.getBoundingClientRect(),e=document.getElementById('main-image'),o=e.naturalWidth/n.width,a=e.naturalHeight/n.height}),initializePage(),window.addEventListener('storage',t=>{'cart'===t.key&&updateCartCount()});
+        const firebaseConfig = {
+            apiKey: "AIzaSyD1ccRiAIz_MYh6lv3u-gliWtHSBqS3zQs",
+            authDomain: "ecommerce-3a30f.firebaseapp.com",
+            projectId: "ecommerce-3a30f",
+            storageBucket: "ecommerce-3a30f.firebasestorage.app",
+            messagingSenderId: "526024768102",
+            appId: "1:526024768102:web:d408b83d034e8d912a4ba7",
+            measurementId: "G-5HNQGF9L4H"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+
+        auth.onAuthStateChanged((user) => {
+            const welcomeMsg = document.getElementById('welcome-msg');
+            const profileMenu = document.getElementById('profile-menu');
+            const navLinks = document.querySelector('.nav-links');
+
+            if (user) {
+                const fullName = user.displayName || 'User';
+                const shortName = fullName.split(' ')[0];
+                if (welcomeMsg) {
+                    welcomeMsg.innerHTML = `Hi, ${shortName} <span style="-webkit-text-fill-color: initial;">✨</span>`;
+                    welcomeMsg.style.display = 'block';
+                }
+                if (profileMenu) profileMenu.style.display = 'block';
+                const loginItem = Array.from(navLinks.children).find(li => li.id === 'login-link');
+                if (loginItem) loginItem.style.display = 'none';
+            } else {
+                if (welcomeMsg) welcomeMsg.style.display = 'none';
+                if (profileMenu) profileMenu.style.display = 'none';
+                let loginItem = Array.from(navLinks.children).find(li => li.id === 'login-link');
+                if (!loginItem) {
+                    const li = document.createElement('li');
+                    li.id = 'login-link';
+                    li.innerHTML = '<a href="auth.html">Login</a>';
+                    navLinks.insertBefore(li, profileMenu);
+                } else {
+                    loginItem.style.display = 'block';
+                }
+            }
+        });
+
+        const products = [
+            {
+                id: 1,
+                name: "Premium Wireless Headphones",
+                price: 299.99,
+                originalPrice: 399.99,
+                description: "High-quality sound with noise cancellation",
+                image: "./images/headphone.webp"
+            },
+            {
+                id: 2,
+                name: "Smart Watch Pro",
+                price: 399.99,
+                originalPrice: 499.99,
+                description: "Track your fitness and stay connected",
+                image: "./images/smartwatch.webp"
+            },
+            {
+                id: 3,
+                name: "Wireless Earbuds",
+                price: 149.99,
+                originalPrice: 199.99,
+                description: "Compact design with powerful sound",
+                image: "./images/earbuds.webp"
+            },
+            {
+                id: 4,
+                name: "Laptop Stand",
+                price: 49.99,
+                originalPrice: 69.99,
+                description: "Ergonomic design for better posture",
+                image: "./images/laptop-stand.webp"
+            },
+            {
+                id: 5,
+                name: "USB-C Hub",
+                price: 79.99,
+                originalPrice: 99.99,
+                description: "Connect all your devices with ease",
+                image: "./images/usb-hub.webp"
+            },
+            {
+                id: 6,
+                name: "Mechanical Keyboard",
+                price: 129.99,
+                originalPrice: 169.99,
+                description: "Premium typing experience",
+                image: "./images/keyboard.webp"
+            }
+        ];
+
+        const grid = document.getElementById("products-grid");
+
+        function renderListing() {
+            grid.innerHTML = products.map(p => {
+                const discount = Math.round(((p.originalPrice - p.price) / p.originalPrice) * 100);
+                return `
+                    <div class="product-card">
+                        <a href="product-detail.html?id=${p.id}" class="product-image-link">
+                            <img src="${p.image}" alt="${p.name}" class="product-image" loading="lazy">
+                        </a>
+                        <div class="product-info">
+                            <a href="product-detail.html?id=${p.id}" style="text-decoration: none;">
+                                <h3 class="product-name">${p.name}</h3>
+                            </a>
+                            <div class="product-price">
+                                $${p.price}
+                                <span class="original-price">$${p.originalPrice}</span>
+                                <span class="discount-badge">${discount}% OFF</span>
+                            </div>
+                            <p class="product-description">${p.description}</p>
+                            <a href="product-detail.html?id=${p.id}" class="view-details-btn">View Details</a>
+                        </div>
+                    </div>
+                `;
+            }).join("");
+        }
+
+        // Firebase logic for navbar
+        function toggleProfileMenu() {
+            const dropdown = document.getElementById('profile-dropdown');
+            dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function logout() {
+            // Simplified for product listing page
+            sessionStorage.removeItem('splashShown');
+            window.location.href = 'index.html';
+        }
+
+        function updateCartCount() {
+            const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            const total = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const countEl = document.getElementById('cart-count');
+            if (countEl) countEl.textContent = total;
+        }
+
+        updateCartCount();
+        renderListing();
     </script>
 </body>
+
 </html>

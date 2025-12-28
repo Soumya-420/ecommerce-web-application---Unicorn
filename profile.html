@@ -4,232 +4,141 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Profile - E-Commerce Store</title>
+    <title>My Profile - Unicorn Online Shopping</title>
+    <link rel="stylesheet" href="css/theme.css">
+    <script type="module" src="js/theme.js"></script>
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="manifest" href="manifest.json">
     <style>
-        :root {
-            --bg-color: #f5f5f5;
-            --text-color: #333;
-            --header-bg: #2c3e50;
-            --header-text: #fff;
-            --card-bg: #fff;
-            --card-shadow: rgba(0, 0, 0, 0.1);
-        }
-
-        body.dark-mode {
-            --bg-color: #1a1a1a;
-            --text-color: #ecf0f1;
-            --header-bg: #000;
-            --header-text: #ecf0f1;
-            --card-bg: #2c3e50;
-            --card-shadow: rgba(0, 0, 0, 0.5);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: var(--text-color);
-            background: var(--bg-color);
-            transition: background 0.3s, color 0.3s;
-        }
-
-        header {
-            background: var(--header-bg);
-            color: var(--header-text);
-            padding: 1rem 0;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 2px 5px var(--card-shadow);
-        }
-
-        /* Specific overrides for profile page elements to use vars */
-        .container,
-        .section-title,
-        .form-group label,
-        .order-header {
-            color: var(--text-color);
-        }
-
-        .container,
-        .order-card {
-            background: var(--card-bg);
-            box-shadow: 0 4px 8px var(--card-shadow);
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            border-radius: 10px;
         }
 
         .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
             border-bottom: 2px solid #3498db;
+            padding-bottom: 0.5rem;
         }
 
-        .order-card {
-            border: 1px solid var(--text-color);
+        .form-group {
+            margin-bottom: 1.5rem;
         }
 
-        nav {
-            max-width: 1200px;
-            margin: auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 2rem;
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
         }
-
-        /* ... keep other styles ... */
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            cursor: pointer;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: var(--header-text);
-            text-decoration: none;
-        }
-
-        /* Use var */
 
         .form-group input,
         .form-group textarea {
-            background: var(--card-bg);
-            /* context dependent */
-            color: var(--text-color);
-            border: 1px solid #ddd;
+            width: 100%;
+            padding: 0.8rem;
+            border-radius: 5px;
+            font-family: inherit;
+        }
+
+        .save-btn {
+            background: #3498db;
+            color: #fff;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .save-btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        .order-card {
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            color: #7f8c8d;
+        }
+
+        .order-status {
+            color: #27ae60;
+            font-weight: bold;
+        }
+
+        .success-msg {
+            color: #27ae60;
+            margin-top: 1rem;
+            display: none;
+            font-weight: 500;
+        }
+
+        /* Profile Dropdown Override for Dark Mode transparency */
+        body.dark-mode #profile-dropdown a {
+            color: #ecf0f1 !important;
+            background: #2c3e50 !important;
+        }
+
+        body.dark-mode #profile-dropdown a:hover {
+            background: #34495e !important;
         }
     </style>
-    <script>
-        if (localStorage.getItem('theme') === 'dark') {
-            document.body.classList.add('dark-mode');
-        }
-    </script>
-</head>
-
-nav {
-max-width: 1200px;
-margin: auto;
-display: flex;
-justify-content: space-between;
-align-items: center;
-padding: 0 2rem;
-}
-
-.logo {
-font-size: 1.5rem;
-font-weight: 700;
-cursor: pointer;
-}
-
-.nav-links {
-display: flex;
-gap: 2rem;
-list-style: none;
-}
-
-.nav-links a {
-color: #fff;
-text-decoration: none;
-}
-
-.container {
-max-width: 800px;
-margin: 2rem auto;
-padding: 2rem;
-background: #fff;
-border-radius: 10px;
-box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.section-title {
-font-size: 1.8rem;
-margin-bottom: 1.5rem;
-color: #2c3e50;
-border-bottom: 2px solid #3498db;
-padding-bottom: 0.5rem;
-}
-
-.form-group {
-margin-bottom: 1.5rem;
-}
-
-.form-group label {
-display: block;
-margin-bottom: 0.5rem;
-font-weight: 600;
-}
-
-.form-group input {
-width: 100%;
-padding: 0.8rem;
-border: 1px solid #ddd;
-border-radius: 5px;
-}
-
-.save-btn {
-background: #3498db;
-color: #fff;
-border: none;
-padding: 0.8rem 1.5rem;
-border-radius: 5px;
-cursor: pointer;
-font-size: 1rem;
-}
-
-.save-btn:hover {
-background: #2980b9;
-}
-
-.order-card {
-border: 1px solid #eee;
-padding: 1rem;
-border-radius: 8px;
-margin-bottom: 1rem;
-background: #fafafa;
-}
-
-.order-header {
-display: flex;
-justify-content: space-between;
-margin-bottom: 0.5rem;
-font-weight: 600;
-color: #7f8c8d;
-}
-
-.order-status {
-color: #27ae60;
-font-weight: bold;
-}
-
-.hidden {
-display: none;
-}
-
-.success-msg {
-color: #27ae60;
-margin-top: 1rem;
-display: none;
-}
-</style>
 </head>
 
 <body>
 
     <header>
         <nav>
-            <div class="logo" onclick="location.href='index.html'"><span>🦄</span> Unicorn</div>
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <div class="logo brand-logo" onclick="location.href='index.html'">
+                    <span>🦄</span> Unicorn
+                </div>
+            </div>
+
+            <button class="hamburger" onclick="toggleMobileMenu()">☰</button>
             <ul class="nav-links">
                 <li><a href="index.html">Home</a></li>
-                <li><a href="cart.html">Cart</a></li>
-                <li><a href="#" onclick="logout()">Logout</a></li>
+                <li><a href="product.html">Products</a></li>
+                <!-- Profile Dropdown -->
+                <li id="profile-menu" style="position: relative;">
+                    <button onclick="toggleProfileMenu()" id="profile-btn">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"
+                            viewBox="0 0 24 24">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                            <circle cx="12" cy="7" r="4" />
+                        </svg>
+                        Profile
+                    </button>
+                    <div id="profile-dropdown"
+                        style="display: none; position: absolute; right: 0; top: 100%; min-width: 200px; border-radius: 5px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); overflow: hidden; margin-top: 10px; z-index: 1001;">
+                        <a href="profile.html"
+                            style="display: block; padding: 12px 15px; text-decoration: none; border-bottom: 1px solid var(--border-color);">Manage
+                            Profile</a>
+                        <a href="profile.html#orders-section"
+                            style="display: block; padding: 12px 15px; text-decoration: none; border-bottom: 1px solid var(--border-color);">Orders</a>
+
+                        <a href="#" onclick="logout()"
+                            style="display: block; padding: 12px 15px; color: #e74c3c !important; text-decoration: none;">Logout</a>
+                    </div>
+                </li>
+                <li id="cart-link"><a href="cart.html">Cart</a></li>
+                <li>
+                    <button class="theme-toggle" onclick="toggleTheme()" title="Toggle Day/Night Mode">
+                        <span id="theme-icon">🌙</span>
+                    </button>
+                </li>
             </ul>
         </nav>
     </header>
@@ -239,12 +148,12 @@ display: none;
         <form onsubmit="updateProfile(event)">
             <div class="form-group">
                 <label>Full Name</label>
-                <input type="text" id="display-name" required>
+                <input type="text" id="display-name" required placeholder="Enter your full name">
             </div>
             <div class="form-group">
                 <label>Email</label>
-                <input type="email" id="email" disabled style="background: #e9ecef;">
-                <small>Email cannot be changed</small>
+                <input type="email" id="email" disabled style="opacity: 0.7; cursor: not-allowed;">
+                <small style="color: var(--text-color); opacity: 0.6;">Email cannot be changed</small>
             </div>
 
             <div class="form-group">
@@ -254,9 +163,7 @@ display: none;
 
             <div class="form-group">
                 <label>Address</label>
-                <textarea id="address" rows="3"
-                    style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 5px; font-family: inherit;"
-                    placeholder="Enter your delivery address"></textarea>
+                <textarea id="address" rows="3" placeholder="Enter your delivery address"></textarea>
             </div>
 
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
@@ -361,6 +268,11 @@ display: none;
                     alert('Error updating profile: ' + error.message);
                 }
             }
+        }
+
+        function toggleProfileMenu() {
+            const dropdown = document.getElementById('profile-dropdown');
+            dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
         }
 
         function logout() {

@@ -1,295 +1,852 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product Detail - E-Commerce</title>
+    <title>Product Details - Unicorn Online Shopping</title>
+    <link rel="stylesheet" href="css/theme.css">
+    <script type="module" src="js/theme.js"></script>
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="manifest" href="manifest.json">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; }
-        header { background: #2c3e50; color: white; padding: 1rem 0; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        nav { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 2rem; }
-        .logo { font-size: 1.5rem; font-weight: bold; cursor: pointer; }
-        .cart-icon { position: relative; cursor: pointer; }
-        .cart-count { position: absolute; top: -8px; right: -8px; background: #e74c3c; color: white; border-radius: 50%; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: bold; }
-        .container { max-width: 1200px; margin: 2rem auto; padding: 0 2rem; }
-        .product-container { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
-        .main-image-container { position: relative; overflow: hidden; border-radius: 10px; margin-bottom: 1rem; cursor: zoom-in; }
-        .main-image { width: 100%; display: block; transition: transform 0.3s ease; }
-        .main-image-container:hover .main-image { transform: scale(1.2); }
-        .thumbnails { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem; }
-        .thumbnail { cursor: pointer; border: 2px solid transparent; border-radius: 5px; overflow: hidden; transition: all 0.3s; }
-        .thumbnail:hover, .thumbnail.active { border-color: #3498db; transform: scale(1.05); }
-        .thumbnail img { width: 100%; display: block; }
-        .product-details h1 { font-size: 2rem; margin-bottom: 0.5rem; color: #2c3e50; }
-        .product-price { font-size: 2rem; color: #e74c3c; font-weight: bold; margin: 1rem 0; }
-        .original-price { text-decoration: line-through; color: #95a5a6; font-size: 1.2rem; margin-left: 0.5rem; }
-        .product-description { margin: 1.5rem 0; color: #555; line-height: 1.8; }
-        .variation-section { margin: 2rem 0; }
-        .variation-section h3 { margin-bottom: 0.5rem; color: #2c3e50; }
-        .variation-options { display: flex; gap: 0.5rem; margin-top: 0.5rem; flex-wrap: wrap; }
-        .variation-option { padding: 0.5rem 1rem; border: 2px solid #ddd; border-radius: 5px; cursor: pointer; transition: all 0.3s; background: white; }
-        .variation-option:hover:not(:disabled) { border-color: #3498db; background: #ecf0f1; }
-        .variation-option.active { border-color: #3498db; background: #3498db; color: white; }
-        .variation-option:disabled { opacity: 0.4; cursor: not-allowed; text-decoration: line-through; }
-        .quantity-selector { display: flex; align-items: center; gap: 1rem; margin: 2rem 0; }
-        .quantity-controls { display: flex; border: 2px solid #ddd; border-radius: 5px; overflow: hidden; }
-        .quantity-btn { padding: 0.5rem 1rem; background: white; border: none; cursor: pointer; font-size: 1.2rem; transition: background 0.3s; }
-        .quantity-btn:hover { background: #ecf0f1; }
-        .quantity-input { width: 60px; text-align: center; border: none; border-left: 1px solid #ddd; border-right: 1px solid #ddd; font-size: 1rem; padding: 0.5rem; }
-        .add-to-cart-btn { background: #3498db; color: white; padding: 1rem 2rem; border: none; border-radius: 5px; font-size: 1.1rem; cursor: pointer; transition: all 0.3s; font-weight: bold; }
-        .add-to-cart-btn:hover { background: #2980b9; transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
-        .add-to-cart-btn:active { transform: translateY(0) scale(0.98); }
-        .success-message { position: fixed; top: 100px; right: 20px; background: #27ae60; color: white; padding: 1rem 2rem; border-radius: 5px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); display: none; animation: slideIn 0.3s ease; z-index: 1000; }
-        @keyframes slideIn { from { transform: translateX(400px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-        .stock-info { margin: 1rem 0; color: #27ae60; font-weight: bold; }
-        .stock-info.low-stock { color: #f39c12; }
-        .stock-info.out-of-stock { color: #e74c3c; }
-        @media (max-width: 768px) {
-            .product-container { grid-template-columns: 1fr; gap: 1.5rem; }
-            nav { padding: 0 1rem; }
-            .container { padding: 0 1rem; }
-            .product-details h1 { font-size: 1.5rem; }
-            .product-price { font-size: 1.5rem; }
+        .container {
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 0 20px;
+            background: var(--card-bg);
+            box-shadow: 0 0 10px var(--card-shadow);
+        }
+
+        .product-container {
+            display: flex;
+            gap: 20px;
+            padding-top: 20px;
+            min-height: 100vh;
+        }
+
+        /* Profile Dropdown Override */
+        body.dark-mode #profile-dropdown a {
+            color: #ecf0f1 !important;
+            background: #2c3e50 !important;
+        }
+
+        body.dark-mode #profile-dropdown a:hover {
+            background: #34495e !important;
+        }
+
+        .page-nav-btn {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 50px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--text-color);
+            cursor: pointer;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px var(--card-shadow);
+            text-decoration: none;
+        }
+
+        .page-nav-btn:hover {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .page-nav-btn.prev {
+            left: 20px;
+        }
+
+        .page-nav-btn.next {
+            right: 20px;
+        }
+
+        @media (max-width: 1300px) {
+            .page-nav-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+
+            .page-nav-btn.prev {
+                left: 10px;
+            }
+
+            .page-nav-btn.next {
+                right: 10px;
+            }
         }
     </style>
+    <script>
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+        }
+
+        function toggleProfileMenu() {
+            const dropdown = document.getElementById('profile-dropdown');
+            dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
+        }
+    </script>
 </head>
+
 <body>
     <header>
+        <button class="page-nav-btn prev" onclick="navigateProduct(-1)" title="Previous Product"> &lt; </button>
+        <button class="page-nav-btn next" onclick="navigateProduct(1)" title="Next Product"> &gt; </button>
         <nav>
-            <div class="logo" onclick="window.location.href='index.html'">E-Commerce Store</div>
-            <div class="cart-icon" onclick="window.location.href='cart.html'">
-                <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="9" cy="21" r="1"></circle>
-                    <circle cx="20" cy="21" r="1"></circle>
-                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-                </svg>
-                <span class="cart-count" id="cart-count">0</span>
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <div class="logo brand-logo" onclick="location.href='index.html'">
+                    <span>🦄</span> Unicorn
+                </div>
             </div>
+
+            <button class="hamburger" onclick="toggleMobileMenu()">☰</button>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="product.html">Products</a></li>
+                <li id="cart-link" class="cart-icon">
+                    <a href="cart.html" style="padding: 0; background: none; border: none; box-shadow: none;">
+                        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"
+                            viewBox="0 0 24 24">
+                            <circle cx="9" cy="21" r="1" />
+                            <circle cx="20" cy="21" r="1" />
+                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+                        </svg>
+                        Cart
+                        <span class="cart-count" id="cart-count">0</span>
+                    </a>
+                </li>
+                <!-- Profile Dropdown -->
+                <li id="profile-menu" style="position: relative; display: block;">
+                    <button onclick="toggleProfileMenu()" id="profile-btn">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"
+                            viewBox="0 0 24 24">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                            <circle cx="12" cy="7" r="4" />
+                        </svg>
+                        Profile
+                    </button>
+                    <div id="profile-dropdown"
+                        style="display: none; position: absolute; right: 0; top: 100%; min-width: 200px; border-radius: 5px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); overflow: hidden; margin-top: 10px; z-index: 1001; background: var(--card-bg);">
+                        <a href="profile.html"
+                            style="display: block; padding: 12px 15px; color: var(--text-color); text-decoration: none; border-bottom: 1px solid var(--border-color);">Manage
+                            Profile</a>
+                        <a href="profile.html#orders-section"
+                            style="display: block; padding: 12px 15px; color: var(--text-color); text-decoration: none; border-bottom: 1px solid var(--border-color);">Orders</a>
+
+                        <a href="#" onclick="logout()"
+                            style="display: block; padding: 12px 15px; color: #e74c3c; text-decoration: none;">Logout</a>
+                    </div>
+                </li>
+                <li>
+                    <button class="theme-toggle" onclick="toggleTheme()" title="Toggle Day/Night Mode">
+                        <span id="theme-icon">🌙</span>
+                    </button>
+                </li>
+            </ul>
         </nav>
     </header>
 
-    <div class="container">
-        <div class="product-container">
-            <div class="product-images">
-                <div class="main-image-container" id="main-image-container">
-                    <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&h=600&fit=crop" 
-                         alt="Product" class="main-image" id="main-image">
-                </div>
-                <div class="thumbnails" id="thumbnails"></div>
-            </div>
+    <style>
+        /* Left Column: Fixed/Sticky Images */
+        .product-images-wrapper {
+            flex: 0 0 40%;
+            position: sticky;
+            top: 70px;
+            height: fit-content;
+            display: flex;
+            gap: 12px;
+        }
 
-            <div class="product-details">
-                <h1 id="product-name">Loading...</h1>
-                <div class="product-price">
-                    <span id="product-price">$0.00</span>
-                    <span class="original-price" id="original-price"></span>
-                </div>
-                <div class="stock-info" id="stock-info"></div>
-                <p class="product-description" id="product-description"></p>
+        .thumbnails-vertical {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            width: 64px;
+        }
 
-                <div class="variation-section">
-                    <h3>Color</h3>
-                    <div class="variation-options" id="color-options"></div>
-                </div>
+        .thumbnail {
+            width: 64px;
+            height: 64px;
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 2px;
+            transition: border-color 0.2s;
+        }
 
-                <div class="variation-section">
-                    <h3>Size</h3>
-                    <div class="variation-options" id="size-options"></div>
-                </div>
+        .thumbnail:hover,
+        .thumbnail.active {
+            border-color: var(--accent-color);
+        }
 
-                <div class="quantity-selector">
-                    <h3>Quantity:</h3>
-                    <div class="quantity-controls">
-                        <button class="quantity-btn" onclick="decreaseQuantity()">−</button>
-                        <input type="number" class="quantity-input" id="quantity" value="1" min="1" readonly>
-                        <button class="quantity-btn" onclick="increaseQuantity()">+</button>
+        .thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .main-image-section {
+            flex: 1;
+            border: 1px solid var(--border-color);
+            position: relative;
+            background: var(--card-bg);
+            /* Adapted for dark mode */
+        }
+
+        .main-image-container {
+            height: 480px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .main-image {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        /* Flipkart Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .btn-flip {
+            flex: 1;
+            padding: 18px;
+            font-size: 16px;
+            font-weight: 500;
+            border: none;
+            border-radius: 2px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            text-transform: uppercase;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .2);
+        }
+
+        .btn-add-cart {
+            background: #ff9f00;
+            color: #fff;
+        }
+
+        .btn-buy-now {
+            background: #fb641b;
+            color: #fff;
+        }
+
+        /* Right Column: Scrollable Details */
+        .product-details {
+            flex: 1;
+            padding: 0 20px 50px;
+        }
+
+        .product-name {
+            font-size: 20px;
+            color: var(--text-color);
+            margin-bottom: 10px;
+            font-weight: 400;
+        }
+
+        .price-section {
+            margin: 15px 0;
+        }
+
+        .product-price {
+            font-size: 28px;
+            font-weight: 500;
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .original-price {
+            font-size: 16px;
+            color: #878787;
+            text-decoration: line-through;
+        }
+
+        .discount-pct {
+            font-size: 16px;
+            color: #388e3c;
+            font-weight: 500;
+        }
+
+        .variation-section {
+            margin: 24px 0;
+            border-top: 1px solid var(--border-color);
+            padding-top: 20px;
+        }
+
+        .variation-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: #878787;
+            margin-bottom: 12px;
+        }
+
+        .variation-options {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .variation-option {
+            padding: 8px 15px;
+            border: 1px solid var(--border-color);
+            background: var(--card-bg);
+            color: var(--text-color);
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 2px;
+            transition: all 0.2s;
+        }
+
+        .variation-option.active {
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+            font-weight: 500;
+        }
+
+        .variation-option:disabled {
+            color: #c2c2c2;
+            cursor: not-allowed;
+            border-style: dashed;
+        }
+
+        .nav-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            box-shadow: 0 1px 5px var(--card-shadow);
+            cursor: pointer;
+            z-index: 10;
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .nav-arrow.prev {
+            left: 10px;
+        }
+
+        .nav-arrow.next {
+            right: 10px;
+        }
+
+        .success-message {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: #27ae60;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: none;
+            animation: slideIn 0.3s ease;
+            z-index: 1000;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .stock-info {
+            margin: 1rem 0;
+            color: #388e3c;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .stock-info.low-stock {
+            color: #f39c12;
+        }
+
+        .stock-info.out-of-stock {
+            color: #e74c3c;
+        }
+
+        @media (max-width: 768px) {
+            .product-container {
+                flex-direction: column;
+            }
+
+            .product-images-wrapper {
+                position: relative;
+                top: 0;
+                flex: none;
+            }
+        }
+    </style>
+    </head>
+
+    <body>
+
+        <div class="container">
+            <div class="product-container">
+                <div class="product-images-wrapper">
+                    <div class="thumbnails-vertical" id="thumbnails"></div>
+                    <div class="main-image-section">
+                        <button class="nav-arrow prev" onclick="navigateImage(-1)" id="prev-btn">❮</button>
+                        <div class="main-image-container" id="main-image-container">
+                            <img src="" alt="" class="main-image" id="main-image">
+                        </div>
+                        <button class="nav-arrow next" onclick="navigateImage(1)" id="next-btn">❯</button>
+
+                        <div class="action-buttons">
+                            <button class="btn-flip btn-add-cart" onclick="addToCart()">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="#fff">
+                                    <path
+                                        d="M11,9h2V6h3V4h-3V1h-2v3H8v2h3V9z M7,18c-1.1,0-2,0.9-2,2s0.9,2,2,2s2-0.9,2-2S8.1,18,7,18z M17,18c-1.1,0-2,0.9-2,2s0.9,2,2,2s2-0.9,2-2S18.1,18,17,18z M7.2,14.6l0.1-0.1L8.2,13h7.5c0.8,0,1.4-0.4,1.8-1l3.9-7.1L19.7,4l-3.9,7.1H8.5L4.3,2H1v2h2.2l3.6,7.6L5.5,14c-0.1,0.2-0.2,0.4-0.2,0.6c0,1.1,0.9,2,2,2h12v-2H7.4C7.3,14.6,7.2,14.6,7.2,14.6z" />
+                                </svg>
+                                Add to Cart
+                            </button>
+                            <button class="btn-flip btn-buy-now" onclick="buyNow()">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="#fff">
+                                    <path d="M13,2l-9,11h7l-1,9l9-11h-7L13,2z" />
+                                </svg>
+                                Buy Now
+                            </button>
+                        </div>
                     </div>
                 </div>
 
-                <button class="add-to-cart-btn" onclick="addToCart()">Add to Cart</button>
+                <div class="product-details">
+                    <nav style="font-size: 12px; color: #878787; margin-bottom: 10px;">
+                        Home > Mobiles > <span id="breadcrumb-brand">Brand</span>
+                    </nav>
+                    <h1 id="product-name" class="product-name">Loading...</h1>
+                    <div class="rating-row">
+                        <span class="rating-badge">4.6 ★</span>
+                        <span style="color: #878787; font-size: 14px;">2,70,441 Ratings & 9,466 Reviews</span>
+                    </div>
+                    <div class="price-section">
+                        <div id="product-price" class="current-price">$0.00</div>
+                        <div class="price-meta">
+                            <span id="original-price" class="old-price"></span>
+                            <span id="discount-pct" class="discount-pct"></span>
+                        </div>
+                    </div>
+                    <div class="stock-info" id="stock-info"></div>
+
+                    <div class="variation-section">
+                        <div class="variation-title">Color</div>
+                        <div class="variation-options" id="color-options"></div>
+                    </div>
+
+                    <div class="variation-section">
+                        <div class="variation-title">Size</div>
+                        <div class="variation-options" id="size-options"></div>
+                    </div>
+
+                    <div class="variation-section">
+                        <div class="variation-title">Description</div>
+                        <p id="product-description"
+                            style="font-size: 14px; line-height: 1.6; color: var(--text-color);"></p>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="success-message" id="success-message">✓ Product added to cart!</div>
+        <div class="success-message" id="success-message">✓ Product added to cart!</div>
 
-    <script>
-        const products = {
-            '1': {
-                id: 1, name: 'Premium Wireless Headphones', price: 299.99, originalPrice: 399.99,
-                description: 'Experience crystal-clear sound with our premium wireless headphones. Featuring active noise cancellation, 30-hour battery life, and premium comfort padding. Perfect for music lovers and professionals alike.',
-                stock: 15,
-                images: [
-                    'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&h=600&fit=crop',
-                    'https://images.unsplash.com/photo-1484704849700-f032a568e944?w=600&h=600&fit=crop',
-                    'https://images.unsplash.com/photo-1545127398-14699f92334b?w=600&h=600&fit=crop',
-                    'https://images.unsplash.com/photo-1487215078519-e21cc028cb29?w=600&h=600&fit=crop'
-                ],
-                colors: [
-                    { name: 'Black', available: true },
-                    { name: 'White', available: true },
-                    { name: 'Blue', available: false }
-                ],
-                sizes: [{ name: 'One Size', available: true }]
-            },
-            '2': {
-                id: 2, name: 'Smart Watch Pro', price: 399.99, originalPrice: 499.99,
-                description: 'Stay connected with our latest smart watch. Features heart rate monitoring, GPS tracking, water resistance, and 7-day battery life.',
-                stock: 3,
-                images: [
-                    'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&h=600&fit=crop',
-                    'https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=600&h=600&fit=crop',
-                    'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&h=600&fit=crop',
-                    'https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=600&h=600&fit=crop'
-                ],
-                colors: [
-                    { name: 'Silver', available: true },
-                    { name: 'Gold', available: true },
-                    { name: 'Rose Gold', available: true }
-                ],
-                sizes: [
-                    { name: '42mm', available: true },
-                    { name: '46mm', available: true }
-                ]
+        <!-- Firebase SDK -->
+        <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+
+        <script>
+            // Initialize Firebase
+            const firebaseConfig = {
+                apiKey: "AIzaSyD1ccRiAIz_MYh6lv3u-gliWtHSBqS3zQs",
+                authDomain: "ecommerce-3a30f.firebaseapp.com",
+                projectId: "ecommerce-3a30f",
+                storageBucket: "ecommerce-3a30f.firebasestorage.app",
+                messagingSenderId: "526024768102",
+                appId: "1:526024768102:web:d408b83d034e8d912a4ba7",
+                measurementId: "G-5HNQGF9L4H"
+            };
+            firebase.initializeApp(firebaseConfig);
+            const auth = firebase.auth();
+
+            const products = {
+                '1': {
+                    id: 1,
+                    name: 'Premium Wireless Headphones',
+                    price: 299.99,
+                    originalPrice: 399.99,
+                    description: 'Experience crystal-clear sound with our premium wireless headphones. Featuring active noise cancellation, 30-hour battery life, and premium comfort padding.',
+                    stock: 15,
+                    images: [
+                        './images/headphone.webp',
+                        'https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=600&h=600&fit=crop', // Black alternative
+                        'https://images.unsplash.com/photo-1583394838336-acd977736f90?w=600&h=600&fit=crop'  // White alternative
+                    ],
+                    colors: [
+                        { name: 'Black', available: true, image: './images/headphone.webp' },
+                        { name: 'White', available: true, image: 'https://images.unsplash.com/photo-1583394838336-acd977736f90?w=600&h=600&fit=crop' },
+                        { name: 'Blue', available: false, image: './images/headphone.webp' }
+                    ],
+                    sizes: [{ name: 'One Size', available: true }]
+                },
+                '2': {
+                    id: 2,
+                    name: 'Smart Watch Pro',
+                    price: 399.99,
+                    originalPrice: 499.99,
+                    description: 'Stay connected with our latest smart watch. Features heart rate monitoring, GPS tracking, water resistance, and 7-day battery life.',
+                    stock: 3,
+                    images: [
+                        './images/smartwatch.webp',
+                        'https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=600&h=600&fit=crop', // Gold
+                        'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&h=600&fit=crop'  // Silver/Pink
+                    ],
+                    colors: [
+                        { name: 'Silver', available: true, image: './images/smartwatch.webp' },
+                        { name: 'Gold', available: true, image: 'https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=600&h=600&fit=crop' },
+                        { name: 'Rose Gold', available: true, image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&h=600&fit=crop' }
+                    ],
+                    sizes: [{ name: '42mm', available: true }, { name: '46mm', available: true }]
+                },
+                '3': {
+                    id: 3,
+                    name: 'Wireless Earbuds',
+                    price: 149.99,
+                    originalPrice: 199.99,
+                    description: 'Compact design with powerful sound. These earbuds offer seamless connectivity, long battery life, and superior audio quality for your daily activities.',
+                    stock: 20,
+                    images: [
+                        './images/earbuds.webp',
+                        'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=600&h=600&fit=crop',
+                        'https://images.unsplash.com/photo-1598333108581-2923eec7d721?w=600&h=600&fit=crop' // Blue
+                    ],
+                    colors: [
+                        { name: 'Black', available: true, image: './images/earbuds.webp' },
+                        { name: 'Blue', available: true, image: 'https://images.unsplash.com/photo-1598333108581-2923eec7d721?w=600&h=600&fit=crop' },
+                        { name: 'Grey', available: true, image: 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=600&h=600&fit=crop' },
+                        { name: 'White', available: true, image: './images/earbuds.webp' }
+                    ],
+                    sizes: [{ name: 'One Size', available: true }]
+                },
+                '4': {
+                    id: 4,
+                    name: 'Laptop Stand',
+                    price: 49.99,
+                    originalPrice: 69.99,
+                    description: 'Ergonomic design for better posture and cooling. Made from premium aluminum, this stand is compatible with all laptops from 10 to 17 inches.',
+                    stock: 12,
+                    images: ['./images/laptop-stand.webp'],
+                    colors: [{ name: 'Silver', available: true, image: './images/laptop-stand.webp' }],
+                    sizes: [{ name: 'One Size', available: true }]
+                },
+                '5': {
+                    id: 5,
+                    name: 'USB-C Hub',
+                    price: 79.99,
+                    originalPrice: 99.99,
+                    description: 'Connect all your devices with ease. Featuring HDMI, USB 3.0, and SD card slots, this hub is the perfect companion for your modern laptop.',
+                    stock: 8,
+                    images: ['./images/usb-hub.webp'],
+                    colors: [{ name: 'Grey', available: true, image: './images/usb-hub.webp' }],
+                    sizes: [{ name: 'One Size', available: true }]
+                },
+                '6': {
+                    id: 6,
+                    name: 'Mechanical Keyboard',
+                    price: 129.99,
+                    originalPrice: 169.99,
+                    description: 'Premium typing experience for work and gaming. Features tactile switches, customizable RGB lighting, and a durable build.',
+                    stock: 10,
+                    images: ['./images/keyboard.webp'],
+                    colors: [{ name: 'Black', available: true, image: './images/keyboard.webp' }],
+                    sizes: [{ name: 'One Size', available: true }]
+                }
+            };
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = urlParams.get('id') || '1';
+            const product = products[productId];
+            let selectedColor = null, selectedSize = null, currentQuantity = 1, maxStock = 0;
+
+            function initializePage() {
+                if (!product) { document.querySelector('.container').innerHTML = '<h2>Product not found</h2>'; return; }
+                maxStock = product.stock;
+                document.getElementById('product-name').textContent = product.name;
+                document.getElementById('product-description').textContent = product.description;
+
+                // Set Breadcrumb brand
+                const brand = product.name.split(' ')[0];
+                document.getElementById('breadcrumb-brand').textContent = brand;
+
+                updatePrice(); updateStockInfo(); loadImages(); loadVariations(); updateCartCount();
+
+                // Select first color by default
+                if (product.colors && product.colors.length > 0) {
+                    selectColor(product.colors[0].name);
+                }
             }
-        };
 
-        const urlParams = new URLSearchParams(window.location.search);
-        const productId = urlParams.get('id') || '1';
-        const product = products[productId];
-        let selectedColor = null, selectedSize = null, currentQuantity = 1, maxStock = 0;
+            function updatePrice() {
+                const totalPrice = (product.price * currentQuantity).toFixed(2);
+                document.getElementById('product-price').textContent = `$${totalPrice}`;
+                if (product.originalPrice) {
+                    const originalTotal = (product.originalPrice * currentQuantity).toFixed(2);
+                    document.getElementById('original-price').textContent = `$${originalTotal}`;
 
-        function initializePage() {
-            if (!product) { document.querySelector('.container').innerHTML = '<h2>Product not found</h2>'; return; }
-            maxStock = product.stock;
-            document.getElementById('product-name').textContent = product.name;
-            document.getElementById('product-description').textContent = product.description;
-            updatePrice(); updateStockInfo(); loadImages(); loadVariations(); updateCartCount();
-        }
-
-        function updatePrice() {
-            const totalPrice = (product.price * currentQuantity).toFixed(2);
-            document.getElementById('product-price').textContent = `$${totalPrice}`;
-            if (product.originalPrice) {
-                const originalTotal = (product.originalPrice * currentQuantity).toFixed(2);
-                document.getElementById('original-price').textContent = `$${originalTotal}`;
+                    // Calculate and show discount %
+                    const discount = Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100);
+                    document.getElementById('discount-pct').textContent = `${discount}% off`;
+                }
             }
-        }
 
-        function updateStockInfo() {
-            const stockEl = document.getElementById('stock-info');
-            if (product.stock === 0) {
-                stockEl.textContent = 'Out of Stock'; stockEl.className = 'stock-info out-of-stock';
-            } else if (product.stock < 5) {
-                stockEl.textContent = `Only ${product.stock} left in stock!`; stockEl.className = 'stock-info low-stock';
-            } else {
-                stockEl.textContent = `In Stock (${product.stock} available)`; stockEl.className = 'stock-info';
+            function updateStockInfo() {
+                const stockEl = document.getElementById('stock-info');
+                if (product.stock === 0) {
+                    stockEl.textContent = 'Out of Stock'; stockEl.className = 'stock-info out-of-stock';
+                } else if (product.stock < 10) {
+                    stockEl.textContent = `Hurry, Only ${product.stock} left!`; stockEl.className = 'stock-info low-stock';
+                } else {
+                    stockEl.textContent = `In Stock`; stockEl.className = 'stock-info';
+                }
             }
-        }
 
-        function loadImages() {
-            document.getElementById('main-image').src = product.images[0];
-            document.getElementById('thumbnails').innerHTML = product.images.map((img, index) => `
-                <div class="thumbnail ${index === 0 ? 'active' : ''}" onclick="changeImage(${index})">
+            function loadImages() {
+                const initialImage = product.images[0];
+                document.getElementById('main-image').src = initialImage;
+                document.getElementById('thumbnails').innerHTML = product.images.map((img, index) => `
+                <div class="thumbnail ${index === 0 ? 'active' : ''}" onmouseover="changeImage(${index})">
                     <img src="${img}" alt="Product view ${index + 1}">
                 </div>
             `).join('');
-        }
+            }
 
-        function changeImage(index) {
-            document.getElementById('main-image').src = product.images[index];
-            document.querySelectorAll('.thumbnail').forEach((thumb, i) => {
-                thumb.classList.toggle('active', i === index);
-            });
-        }
+            function changeImage(index) {
+                document.getElementById('main-image').src = product.images[index];
+                document.querySelectorAll('.thumbnail').forEach((thumb, i) => {
+                    thumb.classList.toggle('active', i === index);
+                });
+            }
 
-        function loadVariations() {
-            document.getElementById('color-options').innerHTML = product.colors.map(color => `
+            function loadVariations() {
+                document.getElementById('color-options').innerHTML = product.colors.map(color => `
                 <button class="variation-option" onclick="selectColor('${color.name}')" ${!color.available ? 'disabled' : ''}>${color.name}</button>
             `).join('');
-            document.getElementById('size-options').innerHTML = product.sizes.map(size => `
+                document.getElementById('size-options').innerHTML = product.sizes.map(size => `
                 <button class="variation-option" onclick="selectSize('${size.name}')" ${!size.available ? 'disabled' : ''}>${size.name}</button>
             `).join('');
-        }
-
-        function selectColor(color) {
-            selectedColor = color;
-            document.querySelectorAll('#color-options .variation-option').forEach(btn => {
-                btn.classList.toggle('active', btn.textContent.trim() === color);
-            });
-        }
-
-        function selectSize(size) {
-            selectedSize = size;
-            document.querySelectorAll('#size-options .variation-option').forEach(btn => {
-                btn.classList.toggle('active', btn.textContent.trim() === size);
-            });
-        }
-
-        function decreaseQuantity() {
-            if (currentQuantity > 1) { currentQuantity--; document.getElementById('quantity').value = currentQuantity; updatePrice(); }
-        }
-
-        function increaseQuantity() {
-            if (currentQuantity < maxStock) { currentQuantity++; document.getElementById('quantity').value = currentQuantity; updatePrice(); }
-        }
-
-        function addToCart() {
-            if (!selectedColor || !selectedSize) { alert('Please select color and size'); return; }
-            if (product.stock === 0) { alert('Product is out of stock'); return; }
-            
-            const cartItem = { 
-                productId: product.id, 
-                name: product.name, 
-                price: product.price, 
-                quantity: currentQuantity, 
-                color: selectedColor, 
-                size: selectedSize, 
-                image: product.images[0] 
-            };
-            
-            let cart = JSON.parse(localStorage.getItem('cart') || '[]');
-            const existingIndex = cart.findIndex(item => 
-                item.productId === cartItem.productId && 
-                item.color === cartItem.color && 
-                item.size === cartItem.size
-            );
-            
-            if (existingIndex > -1) {
-                cart[existingIndex].quantity += currentQuantity;
-            } else {
-                cart.push(cartItem);
             }
-            
-            localStorage.setItem('cart', JSON.stringify(cart));
-            showSuccessMessage(); 
-            updateCartCount();
-        }
 
-        function showSuccessMessage() {
-            const message = document.getElementById('success-message');
-            message.style.display = 'block';
-            setTimeout(() => { message.style.display = 'none'; }, 3000);
-        }
+            function selectColor(colorName) {
+                selectedColor = colorName;
+                document.querySelectorAll('#color-options .variation-option').forEach(btn => {
+                    btn.classList.toggle('active', btn.textContent.trim() === colorName);
+                });
 
-        function updateCartCount() {
-            const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-            document.getElementById('cart-count').textContent = totalItems;
-        }
+                // Update main image based on color
+                const colorObj = product.colors.find(c => c.name === colorName);
+                if (colorObj && colorObj.image) {
+                    document.getElementById('main-image').src = colorObj.image;
 
-        const mainImageContainer = document.getElementById('main-image-container');
-        mainImageContainer.addEventListener('mousemove', (e) => {
-            const rect = mainImageContainer.getBoundingClientRect();
-            const image = document.getElementById('main-image');
-        });
+                    // Also update active thumbnail if it matches
+                    const imageIndex = product.images.indexOf(colorObj.image);
+                    if (imageIndex > -1) {
+                        changeImage(imageIndex);
+                    }
+                }
+            }
 
-        initializePage();
+            function cycleColor(direction) {
+                const colors = product.colors;
+                if (colors.length <= 1) return;
 
-        window.addEventListener('storage', (e) => {
-            if (e.key === 'cart') { updateCartCount(); }
-        });
-    </script>
-</body>
+                // Find current index
+                let currentIndex = colors.findIndex(c => c.name === selectedColor);
+                if (currentIndex === -1) currentIndex = 0;
+
+                let nextIndex = currentIndex + direction;
+                if (nextIndex < 0) nextIndex = colors.length - 1;
+                if (nextIndex >= colors.length) nextIndex = 0;
+
+                const nextColor = colors[nextIndex].name;
+                selectColor(nextColor);
+            }
+
+            function navigateImage(direction) {
+                const colors = product.colors;
+                if (colors.length <= 1) return;
+
+                let currentIndex = colors.findIndex(c => c.name === selectedColor);
+                if (currentIndex === -1) currentIndex = 0;
+
+                let nextIndex = currentIndex + direction;
+                if (nextIndex < 0) nextIndex = colors.length - 1;
+                if (nextIndex >= colors.length) nextIndex = 0;
+
+                selectColor(colors[nextIndex].name);
+            }
+
+            function buyNow() {
+                if (!selectedColor || !selectedSize) { alert('Please select color and size'); return; }
+                addToCart();
+                window.location.href = 'cart.html';
+            }
+
+            function selectSize(size) {
+                selectedSize = size;
+                document.querySelectorAll('#size-options .variation-option').forEach(btn => {
+                    btn.classList.toggle('active', btn.textContent.trim() === size);
+                });
+            }
+
+            function decreaseQuantity() {
+                if (currentQuantity > 1) { currentQuantity--; document.getElementById('quantity').value = currentQuantity; updatePrice(); }
+            }
+
+            function increaseQuantity() {
+                if (currentQuantity < maxStock) { currentQuantity++; document.getElementById('quantity').value = currentQuantity; updatePrice(); }
+            }
+
+            function addToCart() {
+                if (!selectedColor || !selectedSize) { alert('Please select color and size'); return; }
+                if (product.stock === 0) { alert('Product is out of stock'); return; }
+
+                const cartItem = {
+                    productId: product.id,
+                    name: product.name,
+                    price: product.price,
+                    quantity: currentQuantity,
+                    color: selectedColor,
+                    size: selectedSize,
+                    image: product.images[0]
+                };
+
+                let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+                const existingIndex = cart.findIndex(item =>
+                    item.productId === cartItem.productId &&
+                    item.color === cartItem.color &&
+                    item.size === cartItem.size
+                );
+
+                if (existingIndex > -1) {
+                    cart[existingIndex].quantity += currentQuantity;
+                } else {
+                    cart.push(cartItem);
+                }
+
+                localStorage.setItem('cart', JSON.stringify(cart));
+                showSuccessMessage();
+                updateCartCount();
+            }
+
+            function showSuccessMessage() {
+                const message = document.getElementById('success-message');
+                message.style.display = 'block';
+                setTimeout(() => { message.style.display = 'none'; }, 3000);
+            }
+
+            function updateCartCount() {
+                const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+                const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+                document.getElementById('cart-count').textContent = totalItems;
+            }
+
+            const mainImageContainer = document.getElementById('main-image-container');
+            mainImageContainer.addEventListener('mousemove', (e) => {
+                const rect = mainImageContainer.getBoundingClientRect();
+                const image = document.getElementById('main-image');
+            });
+
+            function navigateProduct(direction) {
+                const urlParams = new URLSearchParams(window.location.search);
+                let currentId = parseInt(urlParams.get('id'));
+                if (isNaN(currentId)) currentId = 1;
+
+                // Find index of current product
+                const productsArray = [1, 2, 3, 4, 5, 6]; // Hardcoded based on current catalog
+                const currentIndex = productsArray.indexOf(currentId);
+
+                let nextIndex = currentIndex + direction;
+                if (nextIndex < 0) nextIndex = productsArray.length - 1;
+                if (nextIndex >= productsArray.length) nextIndex = 0;
+
+                window.location.href = `product-detail.html?id=${productsArray[nextIndex]}`;
+            }
+
+            auth.onAuthStateChanged((user) => {
+                const welcomeMsg = document.getElementById('welcome-msg');
+                const profileMenu = document.getElementById('profile-menu');
+                const navLinks = document.querySelector('.nav-links');
+
+                if (user) {
+                    const fullName = user.displayName || 'User';
+                    const shortName = fullName.split(' ')[0];
+                    if (welcomeMsg) {
+                        welcomeMsg.innerHTML = `Hi, ${shortName} <span style="-webkit-text-fill-color: initial;">✨</span>`;
+                        welcomeMsg.style.display = 'block';
+                    }
+                    if (profileMenu) profileMenu.style.display = 'block';
+                    const loginItem = Array.from(navLinks.children).find(li => li.innerText.includes('Login') || li.id === 'login-link');
+                    if (loginItem) loginItem.style.display = 'none';
+                } else {
+                    if (welcomeMsg) welcomeMsg.style.display = 'none';
+                    if (profileMenu) profileMenu.style.display = 'none';
+                    let loginItem = Array.from(navLinks.children).find(li => li.innerText.includes('Login') || li.id === 'login-link');
+                    if (!loginItem) {
+                        const li = document.createElement('li');
+                        li.id = 'login-link';
+                        li.innerHTML = '<a href="auth.html">Login</a>';
+                        navLinks.insertBefore(li, profileMenu);
+                    } else {
+                        loginItem.style.display = 'block';
+                    }
+                }
+            });
+
+            initializePage();
+
+            function logout() {
+                auth.signOut().then(() => {
+                    sessionStorage.removeItem('splashShown');
+                    window.location.href = 'index.html';
+                });
+            }
+
+            window.addEventListener('storage', (e) => {
+                if (e.key === 'cart') { updateCartCount(); }
+            });
+        </script>
+    </body>
+
 </html>

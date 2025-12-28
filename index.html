@@ -4,10 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="E-Commerce Store - Shop the latest products">
+    <meta name="description" content="Unicorn - The Best Online Shopping Site for Electronics and Accessories">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>E-Commerce Store - Home</title>
+    <title>Unicorn - Online Shopping Site</title>
+    <link rel="stylesheet" href="css/theme.css">
+    <script type="module" src="js/theme.js"></script>
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="manifest" href="manifest.json">
 
     <style>
         * {
@@ -22,23 +26,6 @@
             color: #333
         }
 
-        header {
-            background: #2c3e50;
-            color: #fff;
-            padding: 1rem 0;
-            position: sticky;
-            top: 0;
-            z-index: 100
-        }
-
-        nav {
-            max-width: 1200px;
-            margin: auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 2rem
-        }
 
         .logo {
             font-size: 1.5rem;
@@ -143,6 +130,95 @@
             font-weight: 400;
         }
 
+        /* Carousel Styles */
+        .carousel-wrapper {
+            position: relative;
+            padding: 0 50px;
+            margin: 2rem 0;
+        }
+
+        .products-grid-container {
+            overflow: hidden;
+            scroll-behavior: smooth;
+        }
+
+        .products-grid {
+            display: flex;
+            gap: 2rem;
+            padding: 1rem 0;
+            transition: transform 0.5s ease;
+            width: max-content;
+        }
+
+        .product-card {
+            background: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, .1);
+            width: 280px;
+            flex-shrink: 0;
+        }
+
+        .slider-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--card-bg);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .slider-btn:hover {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .slider-btn.prev {
+            left: 0;
+        }
+
+        .slider-btn.next {
+            right: 0;
+        }
+
+        /* Color Options Styles */
+        .color-options {
+            display: flex;
+            gap: 8px;
+            margin: 10px 0;
+        }
+
+        .color-btn {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 2px solid #ddd;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .color-btn:hover {
+            transform: scale(1.2);
+        }
+
+        .color-btn.selected {
+            border-color: #667eea;
+            box-shadow: 0 0 5px rgba(102, 126, 234, 0.5);
+        }
+
         .discount-badge {
             background: #27ae60;
             color: white;
@@ -174,16 +250,6 @@
             text-align: center;
             padding: 2rem;
             margin-top: 3rem
-        }
-
-        @media(max-width:768px) {
-            .hero h1 {
-                font-size: 2rem
-            }
-
-            .nav-links {
-                display: none
-            }
         }
     </style>
 
@@ -263,16 +329,7 @@
             }
         }
 
-        .brand-logo {
-            font-family: 'Brush Script MT', cursive;
-            font-size: 2rem;
-            background: -webkit-linear-gradient(#f1c40f, #e74c3c);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+
 
         .welcome-text {
             font-family: 'Segoe UI', sans-serif;
@@ -280,6 +337,7 @@
             font-weight: 700;
             background: linear-gradient(45deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%);
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
             text-transform: capitalize;
             letter-spacing: 0.5px;
@@ -473,14 +531,26 @@
                 <div id="welcome-msg" class="welcome-text" style="display: none;"></div>
             </div>
 
-            <ul class="nav-links" style="display: flex; align-items: center;">
+            <button class="hamburger" onclick="toggleMobileMenu()">☰</button>
+            <ul class="nav-links">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="product.html">Products</a></li>
+                <li id="cart-link" class="cart-icon">
+                    <a href="cart.html" style="padding: 0; background: none; border: none; box-shadow: none;">
+                        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"
+                            viewBox="0 0 24 24">
+                            <circle cx="9" cy="21" r="1" />
+                            <circle cx="20" cy="21" r="1" />
+                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+                        </svg>
+                        Cart
+                        <span class="cart-count" id="cart-count">0</span>
+                    </a>
+                </li>
                 <!-- Profile Dropdown -->
                 <li id="profile-menu" style="position: relative; display: none;">
-                    <button onclick="toggleProfile()"
-                        style="background: none; border: none; color: white; cursor: pointer; display: flex; align-items: center; gap: 5px;">
-                        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"
+                    <button onclick="toggleProfileMenu()" id="profile-btn">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"
                             viewBox="0 0 24 24">
                             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
                             <circle cx="12" cy="7" r="4" />
@@ -488,20 +558,18 @@
                         Profile
                     </button>
                     <div id="profile-dropdown"
-                        style="display: none; position: absolute; right: 0; top: 100%; background: white; min-width: 200px; border-radius: 5px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); overflow: hidden; margin-top: 10px;">
+                        style="display: none; position: absolute; right: 0; top: 100%; min-width: 200px; border-radius: 5px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); overflow: hidden; margin-top: 10px; z-index: 1001; background: var(--card-bg);">
                         <a href="profile.html"
-                            style="display: block; padding: 10px 15px; color: #333; text-decoration: none; border-bottom: 1px solid #eee;">Manage
-                            Personal Details</a>
+                            style="display: block; padding: 12px 15px; color: var(--text-color); text-decoration: none; border-bottom: 1px solid var(--border-color);">Manage
+                            Profile</a>
                         <a href="profile.html#orders-section"
-                            style="display: block; padding: 10px 15px; color: #333; text-decoration: none; border-bottom: 1px solid #eee;">Orders</a>
-                        <a href="cart.html"
-                            style="display: block; padding: 10px 15px; color: #333; text-decoration: none; border-bottom: 1px solid #eee;">Cart</a>
+                            style="display: block; padding: 12px 15px; color: var(--text-color); text-decoration: none; border-bottom: 1px solid var(--border-color);">Orders</a>
+
                         <a href="#" onclick="logout()"
-                            style="display: block; padding: 10px 15px; color: #e74c3c; text-decoration: none;">Logout</a>
+                            style="display: block; padding: 12px 15px; color: #e74c3c; text-decoration: none;">Logout</a>
                     </div>
                 </li>
                 <li id="login-link"><a href="auth.html">Login</a></li>
-                <li id="cart-link"><a href="cart.html">Cart</a></li>
                 <li>
                     <button class="theme-toggle" onclick="toggleTheme()" title="Toggle Day/Night Mode">
                         <span id="theme-icon">🌙</span>
@@ -521,11 +589,17 @@
 
     <div class="container">
         <h2 class="section-title" id="products">Featured Products</h2>
-        <div class="products-grid" id="products-grid"></div>
+        <div class="carousel-wrapper">
+            <button class="slider-btn prev" onclick="scrollSlider(-1)"> &lt; </button>
+            <div class="products-grid-container" id="slider-container">
+                <div class="products-grid" id="products-grid"></div>
+            </div>
+            <button class="slider-btn next" onclick="scrollSlider(1)"> &gt; </button>
+        </div>
     </div>
 
     <footer>
-        <p>&copy; 2024 E-Commerce Store. All rights reserved.</p>
+        <p>&copy; 2025 E-Commerce Store. All rights reserved.</p>
     </footer>
 
     <script>
@@ -569,7 +643,7 @@
             }
         });
 
-        function toggleProfile() {
+        function toggleProfileMenu() {
             const dd = document.getElementById('profile-dropdown');
             dd.style.display = dd.style.display === 'block' ? 'none' : 'block';
         }
@@ -612,9 +686,11 @@
                 image: "./images/smartwatch.webp",
                 colors: [
                     { name: "Black", hex: "#000", image: "./images/smartwatch.webp" },
-                    { name: "Pink", hex: "#ffc0cb", image: "./images/smartwatch-pink.png" }
+                    { name: "Gold", hex: "#FFD700", image: "https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=600&h=600&fit=crop" },
+                    { name: "Pink", hex: "#ffc0cb", image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&h=600&fit=crop" }
                 ]
             },
+
             {
                 id: 3,
                 name: "Wireless Earbuds",
@@ -625,7 +701,6 @@
                 colors: [
                     { name: "Black", hex: "#000", image: "./images/earbuds.webp" },
                     { name: "Blue", hex: "#3498db", image: "./images/earbuds-blue.png" },
-                    { name: "Grey", hex: "#808080", image: "./images/earbuds.webp" }, // Mock
                     { name: "White", hex: "#fff", image: "./images/earbuds.webp" } // Mock
                 ]
             },
@@ -674,9 +749,13 @@
 
                 return `
             <div class="product-card" id="product-${p.id}">
-                <img src="${current.image}" alt="${p.name}" class="product-image" loading="lazy" id="img-${p.id}">
+                <a href="product-detail.html?id=${p.id}" style="text-decoration: none; color: inherit;">
+                    <img src="${current.image}" alt="${p.name}" class="product-image" loading="lazy" id="img-${p.id}">
+                </a>
                 <div class="product-info">
-                    <h3 class="product-name">${p.name}</h3>
+                    <a href="product-detail.html?id=${p.id}" style="text-decoration: none; color: inherit;">
+                        <h3 class="product-name">${p.name}</h3>
+                    </a>
                     <div class="product-price">
                         <span class="original-price">$${p.originalPrice}</span>
                         $${p.price}
@@ -705,24 +784,20 @@
             const color = product.colors.find(c => c.name === colorName);
             if (color) {
                 selectedColors[productId] = color;
-                // create a temporary simple re-render or just direct DOM manipulation for speed
                 renderProducts(); // Re-render to update UI state
             }
         }
 
-        // Theme Toggle Logic
-        function toggleTheme() {
-            document.body.classList.toggle('dark-mode');
-            const isDark = document.body.classList.contains('dark-mode');
-            localStorage.setItem('theme', isDark ? 'dark' : 'light');
-            document.getElementById('theme-icon').textContent = isDark ? '☀️' : '🌙';
+        function scrollSlider(direction) {
+            const container = document.getElementById('slider-container');
+            const scrollAmount = 312; // Card width (280) + gap (32)
+            container.scrollBy({
+                left: direction * scrollAmount,
+                behavior: 'smooth'
+            });
         }
 
-        // Init Theme
-        if (localStorage.getItem('theme') === 'dark') {
-            document.body.classList.add('dark-mode');
-            document.getElementById('theme-icon').textContent = '☀️';
-        }
+
 
         function addToCart(productId) {
             const product = products.find(p => p.id === productId);
@@ -759,10 +834,10 @@
         function updateCartCount() {
             const cart = JSON.parse(localStorage.getItem('cart') || '[]');
             const count = cart.reduce((total, item) => total + item.quantity, 0);
-            // Find or create cart count badge if meaningful, for now just ensuring logic runs
-            // If we add a badge to the header, we update it here.
-            const navLinks = document.querySelector('.nav-links');
-            // Simple indicator update if we had one.
+            const countEl = document.getElementById('cart-count');
+            if (countEl) {
+                countEl.textContent = count;
+            }
         }
 
         renderProducts();
