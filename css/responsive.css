@@ -12,21 +12,31 @@
 @media (max-width: 768px) {
     .hamburger {
         display: block;
+        font-size: 1.8rem;
     }
 
+    /* Mobile Navigation Drawer */
     .nav-links {
         position: fixed;
         top: 0;
         right: -100%;
-        width: 70%;
+        width: 80%;
+        max-width: 300px;
         height: 100vh;
-        background: var(--card-bg);
+        background: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(10px);
         flex-direction: column;
-        justify-content: center;
+        justify-content: flex-start;
+        padding-top: 80px;
         align-items: center;
-        transition: right 0.3s ease;
-        box-shadow: -5px 0 15px rgba(0, 0, 0, 0.2);
+        transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: -10px 0 30px rgba(0, 0, 0, 0.15);
         z-index: 1000;
+        gap: 2rem;
+    }
+
+    body.dark-mode .nav-links {
+        background: rgba(30, 41, 59, 0.98);
     }
 
     .nav-links.active {
@@ -36,44 +46,115 @@
     .nav-links li {
         width: 100%;
         text-align: center;
+        opacity: 0;
+        transform: translateX(20px);
+        transition: all 0.3s ease;
+    }
+
+    .nav-links.active li {
+        opacity: 1;
+        transform: translateX(0);
+        transition-delay: 0.2s;
     }
 
     .nav-links a,
     .nav-links button {
         color: var(--text-color) !important;
-        font-size: 1.2rem;
-        width: 100%;
+        font-size: 1.3rem;
+        width: 80%;
+        margin: 0 auto;
         justify-content: center;
         padding: 1rem;
+        border-radius: 12px;
     }
 
-    /* Adjust container padding */
+    .nav-links a:hover,
+    .nav-links button:hover {
+        background: var(--accent-color);
+        color: white !important;
+    }
+
+    /* Hero Section Scaling */
+    .hero {
+        padding: 4rem 1.5rem;
+        border-bottom-left-radius: 30% 5%;
+        border-bottom-right-radius: 30% 5%;
+    }
+
+    .hero h1 {
+        font-size: 2.5rem;
+        /* Smaller font for mobile */
+        line-height: 1.2;
+    }
+
+    .hero p {
+        font-size: 1.1rem;
+    }
+
+    /* Container Padding */
     .container {
         padding: 1rem;
     }
 
     .logo {
-        font-size: 1.2rem;
+        font-size: 1.3rem;
     }
 
-    /* Slider improvements for mobile */
+    /* Mobile Product Slider */
     .products-grid-container {
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
         scroll-snap-type: x mandatory;
+        padding-bottom: 2rem;
+        /* Space for scrollbar/shadow */
+        margin: 0 -1rem;
+        /* Full width bleeding */
+        padding-left: 1rem;
+        padding-right: 1rem;
     }
 
     .products-grid {
         gap: 1rem;
-        /* Reduce gap on mobile */
+        padding: 1rem 0;
     }
 
     .product-card {
         scroll-snap-align: center;
+        width: 85vw;
+        /* Fluid width for small phones */
+        max-width: 280px;
+        margin-right: 5px;
     }
 
-    /* Hide slider arrows on mobile if we have touch scroll */
+    /* Hide desktop slider arrows */
     .slider-btn {
         display: none;
+    }
+
+    /* Chatbot Mobile Position */
+    #chatbot-btn {
+        bottom: 15px;
+        right: 15px;
+        width: 50px;
+        height: 50px;
+    }
+
+    #chatbot-window {
+        width: 90%;
+        left: 5%;
+        right: 5%;
+        bottom: 80px;
+    }
+}
+
+/* PC / Large Screen Optimizations */
+@media (min-width: 1200px) {
+    .container {
+        max-width: 1400px;
+        /* Wider layout on large monitors */
+    }
+
+    .products-grid {
+        justify-content: center;
     }
 }
